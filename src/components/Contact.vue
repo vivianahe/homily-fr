@@ -8,7 +8,7 @@
           <figure class="max-w-sm">
             <img
               class="h-auto max-w-full rounded-lg"
-              src="../../public/img/fotourl.jpg"
+              src="/img/fotourl.jpg"
               alt="image description"
             />
           </figure>

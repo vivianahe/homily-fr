@@ -1,5 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Homily from '../views/HomilyView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +6,38 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Homily
+      component: () => import('../views/HomilyView.vue'),
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
-  ]
-})
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/admin/DashboardView.vue'),
+      meta: { requiresAuth: true },
+    },
+  ],
+});
 
-export default router
+// En tu guardia de navegación
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // Verificar la autenticación consultando el token en localStorage
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+      // Usuario autenticado, permite el acceso
+      next();
+    } else {
+      // Redirige al usuario a la página de inicio de sesión
+      next('/login');
+    }
+  } else {
+    // Rutas públicas, permitir acceso sin restricciones
+    next();
+  }
+});
+
+export default router;
