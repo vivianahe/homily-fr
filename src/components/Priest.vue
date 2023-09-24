@@ -24,7 +24,7 @@
         <div class="bg-white rounded-lg p-8 md:p-12">
           <img
             class="rounded-full h-45 w-45"
-            src="../../public/img/sacerdote.jpg"
+            src="/img/sacerdote.jpg"
           />
         </div>
       </div>

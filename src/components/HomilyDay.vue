@@ -6,7 +6,7 @@
             <div class="grid md:grid-cols-2 md:gap-6 mt-11">
                 <figure class="relative max-w-sm transition-all duration-300 cursor-pointer filter hover:grayscale-0">
                     <a href="#">
-                        <img class="rounded-lg" src="../../public/img/cruz.jpg" alt="image description">
+                        <img class="rounded-lg" src="/img/cruz.jpg" alt="image description">
                     </a>
                     <figcaption class="absolute px-4 text-lg text-white bottom-6">
                         <button data-tooltip-target="tooltip-microphone" type="button" class="p-2.5 group bg-gray-100 rounded-full hover:bg-gray-200 mr-4 focus:outline-none focus:ring-4 focus:ring-gray-200">
