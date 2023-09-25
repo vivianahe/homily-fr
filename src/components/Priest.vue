@@ -1,15 +1,27 @@
 <template>
   <section>
-    <div class="mt-11 py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
       <div class="grid md:grid-cols-3 gap-8">
         <div class="bg-white rounded-lg p-8 md:p-12">
           <p
-            class="mb-3 font-bold dark:text-gray-400 text-custom-text md:text-3xl text-center"
+            class="mb-3 font-bold dark:text-gray-400 text-custom-text md:text-2xl"
+          >
+            Oración del día
+          </p>
+          <iframe
+            width="260"
+            height="315"
+            src="https://www.youtube.com/embed/hHpTJyFehRM"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="bg-white rounded-lg p-8 md:p-12">
+          <p
+            class="mb-3 font-bold dark:text-gray-400 text-custom-text md:text-2xl"
           >
             Sacerdote
           </p>
-        </div>
-        <div class="bg-white rounded-lg p-8 md:p-12">
           <p class="mb-3 text-black font-semibold">
             Uriel Alejandro Franco Sánchez
           </p>
@@ -21,12 +33,17 @@
             Jerry at that moment, I was a marine biologist.
           </p>
         </div>
-        <div class="bg-white rounded-lg p-8 md:p-12">
-          <img
-            class="rounded-full h-45 w-45"
-            src="/img/sacerdote.jpg"
-          />
-        </div>
+        <div class="relative bg-white rounded-lg p-8 md:p-12">
+  <div
+    class="absolute inset-0 bg-no-repeat bg-center bg-cover md:bg-contain"
+    style="background-image: url('/img/decoration.png')"
+  ></div>
+  <img
+    class="rounded-full h-45 w-45 relative z-10"
+    src="/img/sacerdote.jpg"
+  />
+</div>
+
       </div>
     </div>
   </section>
