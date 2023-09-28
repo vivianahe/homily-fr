@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('../views/admin/DashboardView.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/',
+      name: 'homilyAll',
+      component: () => import('../views/HomilyAll.vue'),
+    },
   ],
 });
 
