@@ -1,6 +1,7 @@
 
 <script setup>
 import { onMounted } from 'vue';
+import Formulario from '../../components/Admin/Formulario.vue';
 
 const LogOut = () => {
    localStorage.removeItem('authToken');
@@ -165,8 +166,9 @@ const LogOut = () => {
    </aside>
 
    <div class="p-4 sm:ml-64">
-      <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
-         <p>hola</p>
+      <div class="p-4 border-2 rounded-lg mt-24 w-full lg:w-1/2 sm:w-1/2 md:w-full m-auto">
+         <p class="text-3xl text-gray-900 py-10 text-center font-bold">Agregar Homilas</p>
+         <Formulario />
       </div>
    </div>
 </template>

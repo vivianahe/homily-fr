@@ -20,9 +20,14 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/',
+      path: '/homilias',
       name: 'homilyAll',
       component: () => import('../views/HomilyAll.vue'),
+    },
+    {
+      path: '/contacto',
+      name: 'HomilyContact',
+      component: () => import('../views/HomilyContact.vue'),
     },
   ],
 });
