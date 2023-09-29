@@ -6,7 +6,7 @@ import Footer from "../components/Footer.vue";
 
 <template>
    <Header/>
-   <p>AQUI SE LISTAN TODAS LAS HOMILIAS</p>
+   <p>Contacto</p>
    <Footer/>
 </template>
 
