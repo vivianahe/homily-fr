@@ -23,8 +23,8 @@ onMounted(() => {
 <template>
   <Header />
   <carousel />
-  <HomilyDay />
+  <HomilyDay/>
   <Priest />
-  <Contact />
+  <Contact id="contacto"/>
   <Footer />
 </template>

@@ -30,12 +30,12 @@
             </RouterLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'HomilyContact' }"
+            <a href="/#contacto"
               class="block py-2 pl-3 pr-4 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-custom-gray-me md:p-0"
               active-class="text-sky-950">
               <i class="fa-solid fa-envelope-circle-check mr-2"></i>
               Contáctanos
-            </RouterLink>
+          </a>
           </li>
           <li>
             <a href="#"

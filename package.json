@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fullcalendar/daygrid": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/vue3": "^6.1.9",
     "axios": "^1.5.0",
     "flowbite": "^1.8.1",
     "pinia": "^2.1.6",
