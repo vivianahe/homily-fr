@@ -29,6 +29,11 @@ const router = createRouter({
       name: 'homilyDetail',
       component: () => import('../views/HomilyDetail.vue'),
     },
+    {
+      path: '/donar',
+      name: 'donateView',
+      component: () => import('../views/DonateView.vue'),
+    },
   ],
 });
 

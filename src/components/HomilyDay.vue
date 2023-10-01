@@ -57,6 +57,7 @@
               >
                 <i class="fa-solid fa-plus"></i>
               </RouterLink>
+              
             </div>
           </div>
         </div>
@@ -65,4 +66,18 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { dataApi } from "../config/api";
+const dataHomilyDesc = ref([]);
+const getHomilyDesc = async () => {
+  const { data } = await axios.get(`${dataApi}/homilies_desc`);
+  dataHomilyDesc.value = data;
+  console.log(dataHomilyDesc, 'desc');
+};
+
+onMounted(() => {
+  getHomilyDesc();
+});
+</script>
