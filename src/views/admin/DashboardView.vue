@@ -2,15 +2,16 @@
 <script setup>
 import { onMounted } from 'vue';
 import Formulario from '../../components/Admin/Formulario.vue';
+import Table from '../../components/Admin/Table.vue';
+import { initFlowbite } from 'flowbite'
 
 const LogOut = () => {
    localStorage.removeItem('authToken');
 }
-// onMounted(() => {
-//    console.log("aaa");
-//    window.location.reload();
-//    console.log("2222");
-// });
+onMounted(() => {
+    initFlowbite();
+})
+
 </script>
 <template>
    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
@@ -165,11 +166,15 @@ const LogOut = () => {
       </div>
    </aside>
 
-   <div class="p-4 sm:ml-64">
-      <div class="p-4 border-2 rounded-lg mt-24 w-full lg:w-1/2 sm:w-1/2 md:w-full m-auto">
-         <p class="text-3xl text-gray-900 py-10 text-center font-bold">Agregar Homilas</p>
-         <Formulario />
-      </div>
+   <div class="p-4 sm:ml-64 mt-16">
+      <Table/>
    </div>
+
+ <!-- <div class="p-4 sm:ml-64">
+   //   <div class="p-4 border-2 rounded-lg mt-24 w-full lg:w-1/2 sm:w-1/2 md:w-full m-auto">
+   //        <p class="text-3xl text-gray-900 py-10 text-center font-bold">Agregar Homilas</p>
+   //        <Formulario />
+   //     </div>
+   //  </div> -->
 </template>
 
