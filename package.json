@@ -15,6 +15,7 @@
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/vue3": "^6.1.9",
     "axios": "^1.5.0",
+    "dompurify": "^3.0.6",
     "ckeditor-tailwind-reset": "^1.0.5",
     "ckeditor5-vue": "^0.0.7",
     "flowbite": "^1.8.1",

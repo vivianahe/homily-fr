@@ -1,7 +1,6 @@
 <template>
   <Header />
   <Calendar />
-
   <div
     class="flex justify-center items-center"
     v-for="homilies in dataHomilies"
@@ -18,7 +17,7 @@
       />
       <div class="flex flex-col justify-between p-4 leading-normal">
         <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">
-          {{ convertirFecha(homilies.date) }}
+          {{ homilies.date ? convertirFecha(homilies.date) : "" }}
         </h5>
         <p class="mb-3 font-normal text-custom-text">{{ homilies.citation }}</p>
         <p class="mb-3 font-semibold italic text-gray-700">
@@ -36,14 +35,13 @@
         <RouterLink
           :to="{ name: 'homilyDetail', params: { id: homilies.id } }"
           type="button"
-          class="mt-3 text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+          class="mt-3 text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4"
         >
-          Ver
+          Ver 
         </RouterLink>
       </div>
     </a>
   </div>
-
   <Footer />
 </template>
 
@@ -54,6 +52,7 @@ import { dataApi } from "../config/api";
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import Calendar from "../components/Calendar.vue";
+import { initFlowbite } from "flowbite";
 
 const dataHomilies = ref([]);
 
@@ -88,5 +87,6 @@ const getDataHomilies = async () => {
 
 onMounted(() => {
   getDataHomilies();
+  initFlowbite();
 });
 </script>

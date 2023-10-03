@@ -18,6 +18,8 @@ module.exports = {
         'custom-gray-me': '#DFE0DF',
         'custom-text': '#0072AE',
         'custom-icon': '#435473',
+        'custom-found': '#f2f2f2',
+        'custom-text-yell': '#febe16',
       },
     },
   },
