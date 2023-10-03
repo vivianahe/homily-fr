@@ -14,28 +14,26 @@
       </p>
       <div class="grid md:grid-cols-1 gap-8">
         <div class="rounded-lg p-8 md:p-12 flex justify-center items-center">
-          <figure class="relative max-w-sm cursor-pointer">
-  <a href="#">
-    <div class="rounded-lg overflow-hidden transition-transform duration-200 transform scale-100 hover:scale-105">
-      <img
-        class="w-[400px] h-[400px] object-cover"
-        src="/img/cruz.jpg"
-        alt="image description"
-      />
-    </div>
-  </a>
-  <figcaption class="absolute px-4 text-lg text-white bottom-6">
-    <button
-      data-tooltip-target="tooltip-microphone"
-      type="button"
-      class="p-2.5 group bg-gray-100 rounded-full hover:bg-gray-200 mr-4 focus:outline-none focus:ring-4 focus:ring-gray-200"
-    >
-      <i class="fa-solid fa-play text-custom-icon"></i>
-    </button>
-  </figcaption>
-</figure>
-
-
+          <figure class="relative max-w-sm cursor-pointer text-center">
+            <a href="#">
+              <div
+                class="rounded-lg overflow-hidden transition-transform duration-200 transform scale-100 hover:scale-105"
+              >
+                <img
+                  class="w-[400px] h-[400px] object-cover"
+                  src="/img/cruz.jpg"
+                />
+              </div>
+            </a>
+            <figcaption
+              class="absolute px-4 text-lg text-white bottom-6 text-center"
+            >
+              <audio controls>
+                <source src="" type="audio/mpeg" />
+                Tu navegador no admite el elemento de audio.
+              </audio>
+            </figcaption>
+          </figure>
 
           <div
             class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow"
@@ -53,12 +51,13 @@
               far, in reverse chronological order.
             </p>
             <div class="justify-end text-end">
-              <a
-                href="#"
+              <RouterLink
+                :to="{ name: 'home' }"
                 class="px-3 py-2 text-sm font-medium justify-end text-end text-white bg-custom-icon rounded-full hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300"
               >
                 <i class="fa-solid fa-plus"></i>
-              </a>
+              </RouterLink>
+              
             </div>
           </div>
         </div>
@@ -67,4 +66,18 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { dataApi } from "../config/api";
+const dataHomilyDesc = ref([]);
+const getHomilyDesc = async () => {
+  const { data } = await axios.get(`${dataApi}/homilies_desc`);
+  dataHomilyDesc.value = data;
+  console.log(dataHomilyDesc, 'desc');
+};
+
+onMounted(() => {
+  getHomilyDesc();
+});
+</script>

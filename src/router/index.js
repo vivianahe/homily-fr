@@ -25,9 +25,14 @@ const router = createRouter({
       component: () => import('../views/HomilyAll.vue'),
     },
     {
-      path: '/contacto',
-      name: 'HomilyContact',
-      component: () => import('../views/HomilyContact.vue'),
+      path: '/homiliaDetalle/:id',
+      name: 'homilyDetail',
+      component: () => import('../views/HomilyDetail.vue'),
+    },
+    {
+      path: '/donar',
+      name: 'donateView',
+      component: () => import('../views/DonateView.vue'),
     },
   ],
 });
