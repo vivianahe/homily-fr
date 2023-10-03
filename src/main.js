@@ -1,4 +1,7 @@
-import './assets/main.css'
+
+import './assets/main.css';
+import './assets/ckedoctor-reset.css';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
@@ -11,7 +14,8 @@ import interactionPlugin from '@fullcalendar/interaction'; // Importa el complem
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);
-app.use(FullCalendar); // Usa FullCalendar como un complemento global
+app.use(FullCalendar);
+app.use(CKEditor); // Usa FullCalendar como un complemento global
 
 // Usa los complementos de FullCalendar
 app.use(dayGridPlugin);
