@@ -5,6 +5,8 @@ import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { dataApi } from "../config/api";
+import { initFlowbite } from 'flowbite';
+
 const route = useRoute();
 const HomilyId = route.params.id;
 const dataHomilyId = ref([]);
@@ -12,9 +14,33 @@ const getHomilyId = async () => {
   const { data } = await axios.get(`${dataApi}/homilies/${HomilyId}`);
   dataHomilyId.value = data;
 };
+const convertirFecha = (fecha) => {
+  const fechaParts = fecha.split("-");
+  const year = parseInt(fechaParts[0]);
+  const month = parseInt(fechaParts[1]);
+  const day = parseInt(fechaParts[2]);
+
+  const meses = [
+    "ENE",
+    "FEB",
+    "MAR",
+    "ABR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AGO",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DIC",
+  ];
+
+  return `${day} ${meses[month - 1]}`;
+};
 
 onMounted(() => {
   getHomilyId();
+  initFlowbite();
 });
 </script>
 
@@ -23,7 +49,8 @@ onMounted(() => {
   <div class="flex items-center justify-center p-4">
     <div class="bg-gray-600 rounded-full w-32 h-32">
       <p class="text-3xl text-white font-semibold text-center mt-11">
-        {{ dataHomilyId.date }}
+        {{ dataHomilyId.date ? convertirFecha(dataHomilyId.date) : "" }}
+        
       </p>
     </div>
     <blockquote class="text-lg italic font-semibold text-gray-900 ml-4">
@@ -68,7 +95,7 @@ onMounted(() => {
     </p>
 
     <p
-      class="text-gray-500 dark:text-gray-400"
+      class="text-gray-500"
       v-html="dataHomilyId.gospel"
     ></p>
   </div>

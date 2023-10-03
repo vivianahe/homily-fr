@@ -16,7 +16,7 @@
           <li>
             <RouterLink :to="{ name: 'home' }"
               class="block py-2 pl-3 pr-4 text-white rounded hover:bg-cyan-500 md:hover:bg-transparent md:border-0 md:hover:text-custom-gray-me md:p-0"
-              active-class="text-sky-950">
+              active-class="text-slate-800">
               <i class="fa-solid fa-house mr-2"></i>
               Inicio
             </RouterLink>
@@ -24,7 +24,7 @@
           <li>
             <RouterLink :to="{ name: 'homilyAll' }"
               class="block py-2 pl-3 pr-4 text-white rounded hover:bg-cyan-500 md:hover:bg-transparent md:border-0 md:hover:text-custom-gray-me md:p-0"
-              active-class="text-sky-950">
+              active-class="text-slate-800">
               <i class="fa-solid fa-book-bible mr-2"></i>
               Homilías
             </RouterLink>
@@ -32,7 +32,7 @@
           <li>
             <a href="/#contacto"
               class="block py-2 pl-3 pr-4 text-white rounded hover:bg-cyan-500 md:hover:bg-transparent md:border-0 md:hover:text-custom-gray-me md:p-0"
-              active-class="text-sky-950">
+              active-class="text-slate-800">
               <i class="fa-solid fa-envelope-circle-check mr-2"></i>
               Contáctanos
           </a>
@@ -40,7 +40,7 @@
           <li>
             <RouterLink :to="{ name: 'donateView' }"
               class="block py-2 pl-3 pr-4 text-white rounded hover:bg-cyan-500 md:hover:bg-transparent md:border-0 md:hover:text-custom-gray-me md:p-0"
-              active-class="text-sky-950">
+              active-class="text-slate-800">
               <i class="fa-solid fa-hand-holding-heart mr-2"></i>
               Donar
             </RouterLink>
