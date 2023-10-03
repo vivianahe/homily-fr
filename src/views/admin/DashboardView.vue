@@ -16,6 +16,7 @@ onMounted(() => {
 
 const nameUser = ref(localStorage.getItem('nameUser'));
 const emailUser = ref(localStorage.getItem('emailUser'));
+
 </script>
 <template>
    <nav class="fixed top-0 z-50 w-full bg-gray-800 border-b border-gray-700">
@@ -122,9 +123,6 @@ const emailUser = ref(localStorage.getItem('emailUser'));
    </aside>
 
    <div class="p-4 sm:ml-64 mt-16">
-
-      <Table/>
-
       <div class="text-end p-5">
          <button class="bg-sky-500 hover:bg-sky-600 text-gray-800 py-2 px-4 rounded inline-flex items-center" data-modal-target="defaultModal" data-modal-toggle="defaultModal">
             <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
@@ -136,12 +134,5 @@ const emailUser = ref(localStorage.getItem('emailUser'));
       <Table/>
       <ModalVue/>
    </div>
-
- <!-- <div class="p-4 sm:ml-64">
-   //   <div class="p-4 border-2 rounded-lg mt-24 w-full lg:w-1/2 sm:w-1/2 md:w-full m-auto">
-   //        <p class="text-3xl text-gray-900 py-10 text-center font-bold">Agregar Homilas</p>
-   //        <Formulario />
-   //     </div>
-   //  </div> -->
 </template>
 
