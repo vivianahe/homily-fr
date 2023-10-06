@@ -59,7 +59,8 @@
                   params: { id: dataHomilyDesc.id },
                 }"
                 class="px-3 py-2 text-sm font-medium justify-end text-end text-white bg-custom-icon rounded-full hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300"
-              >
+              title="Ver más"
+                >
                 <i class="fa-solid fa-plus"></i>
               </RouterLink>
             </div>

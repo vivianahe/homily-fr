@@ -33,7 +33,7 @@
       <p
         class="mb-3 text-base md:text-lg lg:text-xl xl:text-1xl font-semibold text-custom-text"
       >
-        Mediante la cuenta de ahorros de Bancolombia
+        La puedes realizar mediante la cuenta de ahorros de Bancolombia
       </p>
       
       <button id="copyButton" @click="copyToClipboard" type="button" title="Copiar cuenta" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2">0000-0000-0000</button>
