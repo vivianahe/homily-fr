@@ -3,7 +3,7 @@
   <Calendar />
   <div
     class="flex justify-center items-center"
-    v-for="homilies in dataHomilies"
+    v-for="homilies in displayedHomilies"
     :key="homilies.id"
   >
     <a
@@ -41,12 +41,13 @@
       </div>
     </a>
   </div>
-  <nav aria-label="Page navigation example" >
+  <nav aria-label="Page navigation example">
     <ul class="flex items-center justify-center -space-x-px h-8 text-sm mb-4">
       <li>
         <a
           href="#"
           class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
+          @click="previousPage"
         >
           <span class="sr-only">Previous</span>
           <svg
@@ -66,46 +67,22 @@
           </svg>
         </a>
       </li>
-      <li>
+      <li v-for="page in totalPages" :key="page">
         <a
           href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >1</a
+          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800
+         {{ page === currentPage ? 'bg-gray-700 text-white' : 'bg-white' }}"
+          @click="changePage(page)"
         >
+          {{ page }}
+        </a>
       </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >2</a
-        >
-      </li>
-      <li>
-        <a
-          href="#"
-          aria-current="page"
-          class="z-10 flex items-center justify-center px-3 h-8 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-          >3</a
-        >
-      </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >4</a
-        >
-      </li>
-      <li>
-        <a
-          href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >5</a
-        >
-      </li>
+
       <li>
         <a
           href="#"
           class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          @click="nextPage"
         >
           <span class="sr-only">Next</span>
           <svg
@@ -131,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import { dataApi } from "../config/api";
 import Header from "../components/Header.vue";
@@ -140,6 +117,39 @@ import Calendar from "../components/Calendar.vue";
 import { initFlowbite } from "flowbite";
 
 const dataHomilies = ref([]);
+const currentPage = ref(1);
+const perPage = ref(10);
+
+const totalPages = computed(() => {
+  return Math.ceil(dataHomilies.value.length / perPage.value);
+});
+
+const displayedHomilies = computed(() => {
+  const start = (currentPage.value - 1) * perPage.value;
+  const end = start + perPage.value;
+  return dataHomilies.value.slice(start, end);
+});
+
+const previousPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+
+const changePage = (page) => {
+  currentPage.value = page;
+};
+
+const getDataHomilies = async () => {
+  const { data } = await axios.get(`${dataApi}/homilies`);
+  dataHomilies.value = data;
+};
 
 const convertirFecha = (fecha) => {
   const fechaParts = fecha.split("-");
@@ -163,11 +173,6 @@ const convertirFecha = (fecha) => {
   ];
 
   return `${day} de ${meses[month - 1]} de ${year}`;
-};
-
-const getDataHomilies = async () => {
-  const { data } = await axios.get(`${dataApi}/homilies`);
-  dataHomilies.value = data;
 };
 
 onMounted(() => {

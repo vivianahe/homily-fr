@@ -5,7 +5,11 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { ref } from "vue";
 
 const handleDateClick = (arg) => {
-  alert("date click! " + arg.dateStr);
+  Swal.fire(
+    "Atención!",
+    "No existe homilía con fecha " + arg.dateStr,
+    "warning"
+  );
 };
 
 const calendarOptions = ref({
