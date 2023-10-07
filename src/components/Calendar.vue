@@ -4,12 +4,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { ref } from "vue";
 
+const emit = defineEmits(['date-calendar'])
+
 const handleDateClick = (arg) => {
-  Swal.fire(
-    "Atención!",
-    "No existe homilía con fecha " + arg.dateStr,
-    "warning"
-  );
+  emit('date-calendar',arg.dateStr);
 };
 
 const calendarOptions = ref({

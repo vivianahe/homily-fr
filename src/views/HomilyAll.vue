@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <Calendar />
+  <Calendar @date-calendar="getDataHomilies" />
   <div
     class="flex justify-center items-center"
     v-for="homilies in displayedHomilies"
@@ -118,7 +118,7 @@ import { initFlowbite } from "flowbite";
 
 const dataHomilies = ref([]);
 const currentPage = ref(1);
-const perPage = ref(10);
+const perPage = ref(5);
 
 const totalPages = computed(() => {
   return Math.ceil(dataHomilies.value.length / perPage.value);
@@ -146,9 +146,21 @@ const changePage = (page) => {
   currentPage.value = page;
 };
 
-const getDataHomilies = async () => {
+const getDataHomilies = async (fecha = "") => {
   const { data } = await axios.get(`${dataApi}/homilies`);
-  dataHomilies.value = data;
+  if (fecha != "") {
+    const homiliesWithFecha = data.filter((homily) => homily.date === fecha);
+
+    if (homiliesWithFecha.length > 0) {
+      // La fecha existe en el arreglo, asignar el valor
+      dataHomilies.value = homiliesWithFecha;
+    } else {
+      Swal.fire("Atención!", "No existe la homilía con fecha "+fecha, "warning");
+      dataHomilies.value = data;
+    }
+  } else {
+    dataHomilies.value = data;
+  }
 };
 
 const convertirFecha = (fecha) => {
