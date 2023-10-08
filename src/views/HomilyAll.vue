@@ -1,6 +1,15 @@
 <template>
   <Header />
   <Calendar @date-calendar="getDataHomilies" />
+  <div class="flex justify-center items-center" v-if="showBtnAll">
+    <button
+      type="button"
+      class="text-white bg-blue-600 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+      @click="getDataHomiliesAll"
+    >
+      Mostrar todas
+    </button>
+  </div>
   <div
     class="flex justify-center items-center"
     v-for="homilies in displayedHomilies"
@@ -70,7 +79,7 @@
       <li v-for="page in totalPages" :key="page">
         <a
           href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:bg-gray-800
+          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 
          {{ page === currentPage ? 'bg-gray-700 text-white' : 'bg-white' }}"
           @click="changePage(page)"
         >
@@ -81,7 +90,7 @@
       <li>
         <a
           href="#"
-          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
           @click="nextPage"
         >
           <span class="sr-only">Next</span>
@@ -119,6 +128,7 @@ import { initFlowbite } from "flowbite";
 const dataHomilies = ref([]);
 const currentPage = ref(1);
 const perPage = ref(5);
+const showBtnAll = ref(false);
 
 const totalPages = computed(() => {
   return Math.ceil(dataHomilies.value.length / perPage.value);
@@ -146,17 +156,28 @@ const changePage = (page) => {
   currentPage.value = page;
 };
 
-const getDataHomilies = async (fecha = "") => {
+const getDataHomiliesAll = () => {
+  getDataHomilies();
+  showBtnAll.value = false;
+};
+const getDataHomilies = async (fechaCalendar = "") => {
   const { data } = await axios.get(`${dataApi}/homilies`);
-  if (fecha != "") {
-    const homiliesWithFecha = data.filter((homily) => homily.date === fecha);
-
+  if (fechaCalendar != "") {
+    const homiliesWithFecha = data.filter(
+      (homily) => homily.date === fechaCalendar
+    );
     if (homiliesWithFecha.length > 0) {
-      // La fecha existe en el arreglo, asignar el valor
+      // La fechaCalendar existe en el arreglo, asignar el valor
       dataHomilies.value = homiliesWithFecha;
+      showBtnAll.value = true;
     } else {
-      Swal.fire("Atención!", "No existe la homilía con fecha "+fecha, "warning");
+      Swal.fire(
+        "Atención!",
+        "No existe la homilía con fecha " + fechaCalendar,
+        "warning"
+      );
       dataHomilies.value = data;
+      showBtnAll.value = false;
     }
   } else {
     dataHomilies.value = data;
