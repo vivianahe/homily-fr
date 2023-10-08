@@ -19,7 +19,7 @@
               >
                 <img
                   class="w-[400px] h-[400px] object-cover"
-                  src="/img/cruz.jpg"
+                  :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyDesc.img"
                 />
               </div>
             </a>
@@ -27,7 +27,7 @@
               class="absolute px-4 text-lg text-white bottom-6 text-center"
             >
               <audio controls>
-                <source src="" type="audio/mpeg" />
+                <source :src="'http://homily-ba.test/support/audioHomily/' +  dataHomilyDesc.audio" type="audio/mp4" />
                 Tu navegador no admite el elemento de audio.
               </audio>
             </figcaption>

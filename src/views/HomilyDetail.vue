@@ -64,7 +64,7 @@ onMounted(() => {
     <div class="relative z-10 mt-10 mb-10">
       <img
         class="rounded-sm w-[800px] h-[300px] object-cover"
-        src="/img/cruz.jpg"
+        :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyId.img"
         alt="Imagen"
       />
     </div>
@@ -77,11 +77,11 @@ onMounted(() => {
   <div
     class="flex flex-col md:flex-row md:items-center md:justify-center mt-8 mb-4"
   >
-    <p class="text-2xl font-semibold">Homilía</p>
+    <p class="text-2xl font-semibold">Homilía {{ dataHomilyId.audio }}</p>
     <div class="my-2 md:my-0 md:mx-2"></div>
     <!-- Espacio vertical en pantallas pequeñas, espacio horizontal en pantallas medianas y grandes -->
     <audio controls>
-      <source src="" type="audio/mpeg" />
+      <source :src="'http://homily-ba.test/support/audioHomily/' +  dataHomilyId.audio" type="audio/mp4" />
       Tu navegador no admite el elemento de audio.
     </audio>
   </div>

@@ -20,7 +20,7 @@
     >
       <img
         class="object-cover w-full rounded h-96 md:h-auto md:w-48 md:rounded"
-        src="/img/cruz.jpg"
+        :src="'http://homily-ba.test/support/imgHomily/' + homilies.img"
         alt=""
       />
       <div class="flex flex-col justify-between p-4 leading-normal">
@@ -37,7 +37,7 @@
       </div>
       <div class="flex flex-col justify-between p-4 leading-normal">
         <audio controls>
-          <source src="" type="audio/mpeg" />
+          <source :src="'http://homily-ba.test/support/audioHomily/' +  homilies.audio" type="audio/mp4" />
           Tu navegador no admite el elemento de audio.
         </audio>
         <RouterLink
