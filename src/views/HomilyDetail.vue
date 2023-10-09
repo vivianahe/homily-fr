@@ -5,7 +5,7 @@ import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import { dataApi } from "../config/api";
-import { initFlowbite } from 'flowbite';
+import { initFlowbite } from "flowbite";
 
 const route = useRoute();
 const HomilyId = route.params.id;
@@ -50,7 +50,6 @@ onMounted(() => {
     <div class="bg-gray-600 rounded-full w-32 h-32">
       <p class="text-3xl text-white font-semibold text-center mt-11">
         {{ dataHomilyId.date ? convertirFecha(dataHomilyId.date) : "" }}
-        
       </p>
     </div>
     <blockquote class="text-lg italic font-semibold text-gray-900 ml-4">
@@ -63,6 +62,7 @@ onMounted(() => {
   <div class="flex justify-center items-center relative">
     <div class="relative z-10 mt-10 mb-10">
       <img
+        v-if="dataHomilyId.img"
         class="rounded-sm w-[800px] h-[300px] object-cover"
         :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyId.img"
         alt="Imagen"
@@ -77,11 +77,15 @@ onMounted(() => {
   <div
     class="flex flex-col md:flex-row md:items-center md:justify-center mt-8 mb-4"
   >
-    <p class="text-2xl font-semibold">Homilía {{ dataHomilyId.audio }}</p>
+    <p class="text-2xl font-semibold">Homilía</p>
     <div class="my-2 md:my-0 md:mx-2"></div>
     <!-- Espacio vertical en pantallas pequeñas, espacio horizontal en pantallas medianas y grandes -->
     <audio controls>
-      <source :src="'http://homily-ba.test/support/audioHomily/' +  dataHomilyId.audio" type="audio/mp4" />
+      <source
+        v-if="dataHomilyId.audio"
+        :src="'http://homily-ba.test/support/audioHomily/' + dataHomilyId.audio"
+        type="audio/mp4"
+      />
       Tu navegador no admite el elemento de audio.
     </audio>
   </div>
@@ -94,10 +98,7 @@ onMounted(() => {
       {{ dataHomilyId.reading }}
     </p>
 
-    <p
-      class="text-gray-500"
-      v-html="dataHomilyId.gospel"
-    ></p>
+    <p class="text-gray-500" v-html="dataHomilyId.gospel"></p>
   </div>
   <hr />
   <br />

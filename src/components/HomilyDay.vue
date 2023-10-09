@@ -18,8 +18,12 @@
                 class="rounded-lg overflow-hidden transition-transform duration-200 transform scale-100 hover:scale-105"
               >
                 <img
+                  v-if="dataHomilyDesc.img"
                   class="w-[400px] h-[400px] object-cover"
-                  :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyDesc.img"
+                  :src="
+                    'http://homily-ba.test/support/imgHomily/' +
+                    dataHomilyDesc.img
+                  "
                 />
               </div>
             </a>
@@ -27,7 +31,14 @@
               class="absolute px-4 text-lg text-white bottom-6 text-center"
             >
               <audio controls>
-                <source :src="'http://homily-ba.test/support/audioHomily/' +  dataHomilyDesc.audio" type="audio/mp4" />
+                <source
+                  v-if="dataHomilyDesc.audio"
+                  :src="
+                    'http://homily-ba.test/support/audioHomily/' +
+                    dataHomilyDesc.audio
+                  "
+                  type="audio/mp4"
+                />
                 Tu navegador no admite el elemento de audio.
               </audio>
             </figcaption>
@@ -59,8 +70,8 @@
                   params: { id: dataHomilyDesc.id },
                 }"
                 class="px-3 py-2 text-sm font-medium justify-end text-end text-white bg-custom-icon rounded-full hover:bg-gray-500 focus:ring-4 focus:outline-none focus:ring-blue-300"
-              title="Ver más"
-                >
+                title="Ver más"
+              >
                 <i class="fa-solid fa-plus"></i>
               </RouterLink>
             </div>
