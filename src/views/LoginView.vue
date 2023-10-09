@@ -138,6 +138,7 @@ const login = async () => {
     localStorage.setItem('api_token', response.data.api_token);// Supongo que response.data.token contiene el token
     localStorage.setItem('nameUser',  response.data.name); 
     localStorage.setItem('emailUser', response.data.email);
+    localStorage.setItem('user_id', response.data.user_id);
 
     // Redirigir al usuario al área de administración
     router.push({ name: 'admin' });
