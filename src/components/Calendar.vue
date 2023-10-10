@@ -33,7 +33,6 @@ const calendarOptions = ref({
       </p>
     </div>
     <div class="mx-auto max-w-3xl p-4 bg-white">
-      <!-- Cambia max-w-xl a max-w-5xl o cualquier otro valor que desees -->
       <FullCalendar :options="calendarOptions" />
     </div>
   </div>

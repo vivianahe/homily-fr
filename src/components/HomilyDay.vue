@@ -28,9 +28,9 @@
               </div>
             </a>
             <figcaption
-              class="absolute px-4 text-lg text-white bottom-6 text-center"
+              class="absolute bottom-0 left-0 right-0 px-4 pb-4 text-lg text-white text-center"
             >
-              <audio controls>
+              <audio controls class="mx-auto">
                 <source
                   v-if="dataHomilyDesc.audio"
                   :src="
@@ -45,7 +45,7 @@
           </figure>
 
           <div
-            class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow"
+            class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow mt-4"
           >
             <a>
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">

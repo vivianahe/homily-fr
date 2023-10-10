@@ -18,6 +18,18 @@ const router = createRouter({
       name: 'admin',
       component: () => import('../views/admin/DashboardView.vue'),
       meta: { requiresAuth: true },
+      children:[
+        {
+          path: 'homilyAllAdm',
+          name: 'homilyAllAdm',
+          component: () => import('../views/admin/HomilyAllAdm.vue'),
+        },
+        {
+          path: 'oracion',
+          name: 'prayerView',
+          component: () => import('../views/admin/MorningPrayer.vue'),
+        },
+      ]
     },
     {
       path: '/homilias',
@@ -33,7 +45,7 @@ const router = createRouter({
       path: '/donar',
       name: 'donateView',
       component: () => import('../views/DonateView.vue'),
-    },
+    }
   ],
 });
 
