@@ -22,14 +22,11 @@
       <span class="text-white">Agregar</span>
     </button>
   </div>
-  <TablePrayer />
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
-import TablePrayer from "../../components/Admin/TablePrayer.vue";
 import { initFlowbite } from "flowbite";
-import ModalVue from "../../components/Admin/Modal.vue";
 
 
 onMounted(() => {
