@@ -9,7 +9,10 @@
           <iframe
             width="260"
             height="315"
-            src="https://www.youtube.com/embed/-mpwB-w7tLE"
+            :src="
+                    'https://www.youtube.com/embed/' +
+                    dataPrayerDesc.link
+                  "
             frameborder="0"
             allowfullscreen
           ></iframe>
@@ -45,4 +48,17 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue";
+import axios from "axios";
+import { dataApi } from "../config/api";
+const dataPrayerDesc = ref([]);
+const getPrayerDesc = async () => {
+  const { data } = await axios.get(`${dataApi}/prayers`);
+  dataPrayerDesc.value = data[0];
+  console.log(dataPrayerDesc)
+};
+onMounted(() => {
+  getPrayerDesc();
+});
+</script>

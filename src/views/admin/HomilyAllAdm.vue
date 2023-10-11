@@ -1,32 +1,26 @@
 <template>
-  <div class="text-end p-5">
-    <button
-      class="bg-sky-500 hover:bg-sky-600 text-gray-800 py-2 px-4 rounded inline-flex items-center"
-      data-modal-target="defaultModal"
-      data-modal-toggle="defaultModal"
-      @click="agregar"
-    >
-      <svg
-        class="w-4 h-4 mr-2"
-        xmlns="http://www.w3.org/2000/svg"
-        height="1em"
-        viewBox="0 0 512 512"
+  <div class="flex justify-between p-5">
+    <div class="text-start">
+      <p class="font-semibold text-xl">Homilías</p>
+    </div>
+    <div class="text-end">
+      <button
+        class="bg-sky-500 hover:bg-sky-600 text-gray-800 py-2 px-4 rounded inline-flex items-center"
+        data-modal-target="defaultModal"
+        data-modal-toggle="defaultModal"
+        @click="agregar"
       >
-        <path
-          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0-13.3-10.7-24-24-24s-24-10.7-24-24z"
-          fill="white"
-        />
-      </svg>
-      <span class="text-white">Agregar</span>
-    </button>
-    <button
-      ref="openModal"
-      class="hideen"
-      data-modal-target="defaultModal"
-      data-modal-toggle="defaultModal"
-    ></button>
+        <i class="fa-solid fa-circle-plus text-white"></i>
+        <span class="text-white">Agregar</span>
+      </button>
+    </div>
   </div>
-  <Table :dataHomilies="dataHomilies" @editar="editar" />
+
+  <Table
+    :dataHomilies="dataHomilies"
+    :columns="columnConfig"
+    @editar="editar"
+  />
   <ModalVue :dataForm="dataForm" />
 </template>
 
@@ -67,10 +61,16 @@ const agregar = () => {
   dataForm.componet = markRaw(FormularioAgregar); // Marcar el nuevo componente como no reactivo
   dataForm.nameModal = "Agregar Homilias";
 };
+const columnConfig = [
+  { key: "date", label: "Fecha de evangelio" },
+  { key: "citation", label: "Cita Bíblica" },
+  { key: "title", label: "Título" },
+  { key: "reading", label: "Lectura" },
+  { key: "options", label: "Opciones" },
+];
 
 onMounted(() => {
   initFlowbite();
   getDataHomilies();
 });
 </script>
-
