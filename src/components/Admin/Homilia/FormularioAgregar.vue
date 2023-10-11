@@ -1,9 +1,9 @@
 <script setup>
-import Editor from "./Editor.vue";
+import Editor from "../Editor.vue";
 import { ref, reactive, computed } from "vue";
-import Alerta from "./Alerta.vue";
+import Alerta from "../Alerta.vue";
 import axios from "axios";
-import { dataApi } from "../../config/api";
+import { dataApi } from "@/config/api";
 
 const user_id = localStorage.getItem("user_id");
 const selectedImage = ref(null)
