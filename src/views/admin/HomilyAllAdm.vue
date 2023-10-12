@@ -13,6 +13,12 @@
         <i class="fa-solid fa-circle-plus text-white"></i>
         <span class="text-white">Agregar</span>
       </button>
+      <button
+      ref="openModal"
+      class="hideen"
+      data-modal-target="defaultModal"
+      data-modal-toggle="defaultModal"
+    ></button>
     </div>
   </div>
 
@@ -53,6 +59,7 @@ const getDataHomilies = async () => {
 };
 
 const editar = (id = null) => {
+  console.log(id);
   dataForm.componet = markRaw(FormularioEditar);
   dataForm.nameModal = "Editar Homilias";
   openModal.value.click();

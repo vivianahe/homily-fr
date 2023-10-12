@@ -41,6 +41,7 @@
       <button
         data-modal-hide="defaultModal"
         type="button"
+        @click="$emit('closeMod')"
         class="uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Cancelar
@@ -52,8 +53,29 @@
 <script setup>
 import axios from "axios";
 import { dataApi } from "@/config/api";
-import { ref, reactive, computed } from "vue";
+import { ref, watch  } from "vue";
 const user_id = localStorage.getItem("user_id");
+
+const emit = defineEmits(["closeMod"]);
+const props = defineProps({
+  data: {
+    Object: true,
+  },
+});
+
+watch(() => props.data, (newData, oldData) => {
+      if (newData) {
+        console.log("if");
+        prayer.value.id = newData.id;
+        prayer.value.date = newData.date;
+        prayer.value.link = newData.link;
+      } else {
+        console.log("else");
+        prayer.value.id = null,
+        prayer.value.date = "";
+        prayer.value.link = "";
+      }
+    });
 
 const prayer = ref({
   id: null,
@@ -70,10 +92,7 @@ const submitForm = () => {
         prayer.value.date = "";
         prayer.value.link = "";
         Swal.fire("Correcto!", response.data.message, "success");
-        const modal = new bootstrap.Modal(
-          document.getElementById("defaultModal")
-        );
-        modal.hide();
+        emit("closeMod");
       } else {
         Swal.fire(
           "Atención!",

@@ -13,6 +13,12 @@
         <i class="fa-solid fa-circle-plus text-white"></i>
         <span class="text-white"> Agregar</span>
       </button>
+      <button
+      ref="openModal"
+      class="hideen"
+      data-modal-target="defaultModal"
+      data-modal-toggle="defaultModal"
+    ></button>
     </div>
   </div>
 
@@ -32,6 +38,8 @@ import ModalVue from "../../components/Admin/Modal.vue";
 import axios from "axios";
 import { dataApi } from "../../config/api";
 import FrmAgregar from "@/components/Admin/Oracion/FrmAgregar.vue";
+
+const openModal = ref(null);
 const columnConfig = ref([
   { key: "date", label: "Fecha oración" },
   { key: "link", label: "Link" },
@@ -42,17 +50,23 @@ const agregar = () => {
   dataForm.componet = markRaw(FrmAgregar); // Marcar el nuevo componente como no reactivo
   dataForm.nameModal = "Agregar oración del día";
 };
-const editar = (id = null) => {
-  dataForm.componet = markRaw(FrmAgregar);
-  dataForm.nameModal = "Editar oración del día";
-  const modal = document.getElementById("defaultModal");
-  modal.style.display = "block";
+const editar = async (id = null) => {
+  openModal.value.click();
+  const { data } = await axios.get(`${dataApi}/prayers/${id}`);
+  if(data){
+    dataForm.componet = markRaw(FrmAgregar);
+    dataForm.nameModal = "Editar oración del día";
+    dataForm.data = data;
+  }
 };
+
 const dataPrayerDesc = ref([]);
 const getPrayerDesc = async () => {
   const { data } = await axios.get(`${dataApi}/prayers`);
   dataPrayerDesc.value = data;
 };
+
+
 onMounted(() => {
   initFlowbite();
   getPrayerDesc();

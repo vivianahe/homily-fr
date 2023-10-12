@@ -1,5 +1,11 @@
 <script setup>
+import { ref } from 'vue'
 
+const closeModal = ref(null);
+
+const closeMod = ()=>{
+  closeModal.value.click();
+}
 
 const props = defineProps({
   dataForm: {
@@ -7,6 +13,7 @@ const props = defineProps({
     required: true
   }
 });
+
 
 </script>
 
@@ -34,9 +41,22 @@ const props = defineProps({
         </div>
         <!-- Modal body -->
         <div class="p-6 space-y-6">
-          <component :is="dataForm.componet" />
+          <component :is="dataForm.componet" @closeMod="closeMod" :data="dataForm.data" />
         </div>
+      <button
+        ref="closeModal"
+        data-modal-hide="defaultModal"
+        type="button"
+        class="hidden"
+      >
+      </button>
       </div>
     </div>
   </div>
+
+
+
+
+
+
 </template>
