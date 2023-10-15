@@ -6,6 +6,7 @@ import axios from "axios";
 import { dataApi } from "@/config/api";
 
 const user_id = localStorage.getItem("user_id");
+const emit = defineEmits(["closeMod"]);
 const selectedImage = ref(null)
 const audioFile = ref(null);
 const audioPlayer = ref(null);
@@ -86,7 +87,8 @@ const submit = () => {
   axios
     .post(`${dataApi}/addHomilies`, formData, config)
     .then((response) => {
-      // Hacer algo con la respuesta si es necesario
+      Swal.fire("Correcto!", response.data.message, "success");
+      emit("closeMod");
     })
     .catch((error) => {
       console.error(error);
@@ -244,6 +246,7 @@ const submit = () => {
         Agregar
       </button>
       <button data-modal-hide="defaultModal" type="button"
+        @click="$emit('closeMod')"
         class="uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center">
         Cancelar
       </button>

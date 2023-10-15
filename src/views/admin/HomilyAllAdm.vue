@@ -57,13 +57,6 @@ const getDataHomilies = async () => {
     console.error("Error al obtener los datos de Homilies:", error);
   }
 };
-
-const editar = (id = null) => {
-  console.log(id);
-  dataForm.componet = markRaw(FormularioEditar);
-  dataForm.nameModal = "Editar Homilias";
-  openModal.value.click();
-};
 const agregar = () => {
   dataForm.componet = markRaw(FormularioAgregar); // Marcar el nuevo componente como no reactivo
   dataForm.nameModal = "Agregar Homilias";
@@ -75,6 +68,66 @@ const columnConfig = [
   { key: "reading", label: "Lectura" },
   { key: "options", label: "Opciones" },
 ];
+// const editar = async (id = null) => {
+//   openModal.value.click();
+//   const { data } = await axios.get(`${dataApi}/getHomeliasId/${id}`);
+//   if (data) {
+//     dataForm.componet = markRaw(FormularioEditar);
+//     dataForm.nameModal = "Editar Homilia";
+//     dataForm.data = data;
+//   }
+// };
+const editar = async (id = null) => {
+  // Obtener el token de autorización del almacenamiento local
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+
+  axios
+    .get(`${dataApi}/getHomeliasId/${id}`, config) // Utilizar GET para obtener detalles del homilía
+    .then((response) => {
+    openModal.value.click();
+    dataForm.componet = markRaw(FormularioEditar);
+    dataForm.nameModal = "Editar Homilia";
+    dataForm.data = response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+// const datelle = async (id = null) => {
+//   openModal.value.click();
+//   const { data } = await axios.get(`${dataApi}/prayers/${id}`);
+//   if (data) {
+//     dataForm.componet = markRaw(FrmDetalle);
+//     dataForm.nameModal = "Detalle oración del día";
+//     dataForm.data = data;
+//   }
+// };
+
+// const eliminar = async (id) => {
+//   const { data } = await axios.delete(`${dataApi}/prayers/${id}`);
+//   if (data) {
+//     if (data.data === "ok") {
+//       Swal.fire("Correcto!", data.message, "success");
+//       getPrayerDesc();
+//     } else {
+//       Swal.fire("Atención!", response.data.message, "warning");
+//     }
+//   }
+// };
 
 onMounted(() => {
   initFlowbite();

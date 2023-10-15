@@ -141,7 +141,7 @@ const login = async () => {
     localStorage.setItem('user_id', response.data.user_id);
 
     // Redirigir al usuario al área de administración
-    router.push({ name: 'admin' });
+    router.push({ name: 'homilyAllAdm' });
   } catch (e) {
     error.value = "Credenciales incorrectas. Por favor, inténtalo nuevamente.";
   }

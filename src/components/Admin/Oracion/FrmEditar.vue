@@ -64,32 +64,32 @@ const { data } = defineProps({
 });
 
 const prayer = ref({
-  id: null,
-  date: "",
-  link: "",
-  user_id: user_id ? user_id : null,
+  id: data ? (data.id || null) : null,
+  date: data ? (data.date || "") : "",
+  link: data ? (data.link || "") : "",
+  user_id: user_id
 });
 
 const submitForm = () => {
+  // Supongamos que tienes un campo `id` en tu formulario para especificar el ID de la oración a actualizar.
+  const id = prayer.value.id;
+
   axios
-    .post(`${dataApi}/prayers`, prayer.value)
+    .put(`${dataApi}/prayers/${id}`, prayer.value)
     .then((response) => {
-      if (response.data.message === "Oración guardada exitosamente!") {
+      if (response.data.message === "Oración actualizada exitosamente!") {
         prayer.value.id = "";
         prayer.value.date = "";
         prayer.value.link = "";
         Swal.fire("Correcto!", response.data.message, "success");
         emit("closeMod");
       } else {
-        Swal.fire(
-          "Atención!",
-          response.data.message + prayer.value.date,
-          "warning"
-        );
+        Swal.fire("Atención!", response.data.message, "warning");
       }
     })
     .catch((error) => {
       console.error(error);
     });
 };
+
 </script>

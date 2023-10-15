@@ -6,9 +6,20 @@
 
 <script setup>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
+const props = defineProps({
+  dataUpdate: {
+    type: String
+  }
+})
 const editorData = ref('');
+onMounted(() => {
+  if (props.dataUpdate) {
+    editorData.value = props.dataUpdate;
+  }
+})
+
 const editor = ClassicEditor;
 const editorConfig = {};
 const emit = defineEmits(['editor-data']);

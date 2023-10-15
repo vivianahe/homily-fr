@@ -19,6 +19,7 @@
     "ckeditor5-vue": "^0.0.7",
     "dompurify": "^3.0.6",
     "flowbite": "^1.8.1",
+    "flowbite-datepicker": "^1.2.2",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
