@@ -42,7 +42,7 @@
                 <i class="fa-solid fa-pen-to-square mr-2"></i>
                 Editar
               </button>
-              <button type="button" @click="confirmarEliminar"
+              <button type="button" @click="confirmarEliminar(dataHomi.id)"
                 class="flex items-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
                 <i class="fa-solid fa-trash-can mr-2"></i>
                 Eliminar
@@ -167,7 +167,7 @@ watch(searchTerm, () => {
   currentPage.value = 1; 
 });
 
-const confirmarEliminar = () => {
+const confirmarEliminar = (id) => {
   Swal.fire({
     title: '¿Seguro?',
     text: "No podrás revertirlo.",
@@ -179,7 +179,8 @@ const confirmarEliminar = () => {
     cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
-      emit('eliminar', props.dataHomilies[0].id);
+      console.log(id)
+      emit('eliminar', id);
     }
   })
 }

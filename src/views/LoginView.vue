@@ -50,16 +50,16 @@
         </div>
     </section> -->
     <!-- component -->
-    <div class="bg-gray-800 h-screen">
+    <div class="bg-gradient-to-b from-gray-600 to-gray-500 h-screen">
         <div class="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0">
             <div class="flex flex-col sm:flex-row rounded-lg shadow-lg w-full sm:w-3/4 lg:w-1/2 bg-white sm:mx-0">
                 <div class="flex flex-col w-full md:w-1/2 p-4">
                     <div class="flex flex-col flex-1 justify-center mb-8">
-                        <h1 class="text-4xl leading-tight tracking-tight text-gray-900 text-center font-thin">
+                        <h1 class="text-2xl leading-tight tracking-tight text-gray-900 text-center font-thin">
                             Acceda a su cuenta
                         </h1>
     
-                        <div class="w-full mt-4">
+                        <div class="w-full mt-2">
                         <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                             <span class="block sm:inline">{{ error }}</span>
                             <span class="absolute top-0 bottom-0 right-0 px-4 py-3">

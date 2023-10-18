@@ -94,7 +94,10 @@ onMounted(() => {
     <p class="mb-3 text-lg text-black md:text-xl font-semibold">
       <i class="fa-solid fa-file-lines mr-3"></i> Evangelio
     </p>
-    <p class="mb-3 text-lg text-black-50 md:text-xl">
+    <p class="mb-3 text-sm text-black-50 md:text-sm">
+      {{ dataHomilyId.citation }}
+    </p>
+    <p class="mb-3 text-lg text-gray-600 md:text-xl">
       {{ dataHomilyId.reading }}
     </p>
 

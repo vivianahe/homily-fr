@@ -29,6 +29,11 @@ const router = createRouter({
           name: 'prayerView',
           component: () => import('../views/admin/MorningPrayer.vue'),
         },
+        {
+          path: 'usuarios',
+          name: 'userView',
+          component: () => import('../views/admin/UsersAll.vue'),
+        },
       ]
     },
     {
