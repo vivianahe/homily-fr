@@ -4,11 +4,10 @@ import { ref } from 'vue'
 const closeModal = ref(null);
 
 
-const emit = defineEmits(['getPrayerDesc']);
+const emit = defineEmits(['getData']);
 const closeMod = ()=>{
-  emit('getPrayerDesc');
+  emit('getData');
   closeModal.value.click();
-  location.reload();
 }
 
 const props = defineProps({
@@ -47,10 +46,4 @@ const props = defineProps({
       </div>
     </div>
   </div>
-
-
-
-
-
-
 </template>

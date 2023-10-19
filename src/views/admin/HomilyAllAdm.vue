@@ -27,7 +27,7 @@
     :columns="columnConfig"
     @editar="editar"
   />
-  <ModalVue :dataForm="dataForm" />
+  <ModalVue :dataForm="dataForm" @getData="getDataHomilies" />
 </template>
 
 <script setup>

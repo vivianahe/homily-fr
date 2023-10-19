@@ -15,7 +15,7 @@
 
   <Table :dataHomilies="dataUsers" @editar="editar" @datelle="datelle" @eliminar="eliminar"
     :columns="columnConfig" :busqueda="true"/>
-    <ModalVue :dataForm="dataForm" @getUsers="getUsers" />
+    <ModalVue :dataForm="dataForm" @getData="getUsers" />
 </template>
 
 <script setup>
@@ -75,7 +75,6 @@ const dataUsers = ref([]);
 const getUsers = async () => {
   const { data } = await axios.get(`${dataApi}/users`);
   dataUsers.value = data;
-  console.log(data)
 };
 
 onMounted(() => {

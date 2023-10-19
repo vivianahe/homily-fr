@@ -90,6 +90,7 @@ const submitForm = () => {
         user.value.password = "";
         Swal.fire("Correcto!", response.data.message, "success");
         emit("closeMod");
+        emit("getUsers"); 
       } else {
         Swal.fire("Atención!", response.data.message, "warning");
       }

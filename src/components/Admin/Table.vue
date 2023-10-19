@@ -33,7 +33,7 @@
               <button type="button" @click="$emit('datelle', dataHomi.id)" data-modal-target="defaultModal"
                 data-modal-toggle="defaultModal"
                 class="flex items-center focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 bg-blue-600 hover:bg-blue-700 focus:ring-green-800">
-                <i class="fa-solid fa-pen-to-square mr-2"></i>
+                <i class="fa-solid fa-circle-info mr-2"></i>
                 Ver detalle
               </button>
               <button type="button" @click="$emit('editar', dataHomi.id)" data-modal-target="defaultModal"

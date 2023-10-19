@@ -15,7 +15,7 @@
 
   <Table :dataHomilies="dataPrayerDesc" @editar="editar" @datelle="datelle" @eliminar="eliminar"
     :columns="columnConfig" :busqueda="false"/>
-  <ModalVue :dataForm="dataForm" @getPrayerDesc="getPrayerDesc" />
+  <ModalVue :dataForm="dataForm" @getData="getPrayerDesc"/>
 </template>
 
 <script setup>
@@ -47,6 +47,7 @@ const editar = async (id = null) => {
     dataForm.componet = markRaw(FrmEditar);
     dataForm.nameModal = "Editar oración del día";
     dataForm.data = data;
+    console.log(dataForm.data)
   }
 };
 const datelle = async (id = null) => {
@@ -58,6 +59,7 @@ const datelle = async (id = null) => {
     dataForm.data = data;
   }
 };
+
 
 const eliminar = async (id) => {
   const { data } = await axios.delete(`${dataApi}/prayers/${id}`);
@@ -72,17 +74,15 @@ const eliminar = async (id) => {
 };
 
 
-
+// Componente padre
 const dataPrayerDesc = ref([]);
 const getPrayerDesc = async () => {
   const { data } = await axios.get(`${dataApi}/prayers`);
   dataPrayerDesc.value = data;
-  console.log(data)
 };
-
-
 onMounted(() => {
   initFlowbite();
   getPrayerDesc();
 });
+
 </script>

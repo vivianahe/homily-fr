@@ -15,6 +15,8 @@
         ></iframe>
       </div>
     </div>
+    {{ data }}
+    {{ prayer }}
     <div
       class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b"
     >
@@ -31,20 +33,31 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const user_id = localStorage.getItem("user_id");
+import { ref, watch, onMounted, defineProps } from 'vue';
 
-const emit = defineEmits(["closeMod"]);
 const { data } = defineProps({
-  data: {
-    Object: true,
-  },
+  data: Object,
 });
 
+const user_id = localStorage.getItem("user_id");
+
 const prayer = ref({
-  id: data ? data.id || null : null,
-  date: data ? data.date || "" : "",
-  link: data ? data.link || "" : "",
+  id: null,
+  date: "",
+  link: "",
   user_id: user_id,
+});
+
+// Escucha cambios en la propiedad data para actualizar prayer
+onMounted(() => {
+  watch(data, (newData) => {
+    console.log(data)
+    // Asegúrate de que newData sea un objeto antes de asignar sus propiedades a prayer
+    if (typeof newData === "object" && newData !== null) {
+      prayer.value.id = newData.id || null;
+      prayer.value.date = newData.date || "";
+      prayer.value.link = newData.link || "";
+    }
+  });
 });
 </script>

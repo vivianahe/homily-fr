@@ -6,10 +6,11 @@ import axios from "axios";
 import { dataApi } from "@/config/api";
 
 const user_id = localStorage.getItem("user_id");
-const emit = defineEmits(["closeMod"]);
-const selectedImage = ref(null)
+const emit = defineEmits(["closeMod", "getData"]);
+const selectedImage = ref(null);
 const audioFile = ref(null);
 const audioPlayer = ref(null);
+const loader = ref(true);
 
 const homilia = ref({
   id: null,
@@ -49,11 +50,10 @@ const playAudio = () => {
 };
 const shouldShowAudio = computed(() => !!audioFile.value);
 
-
 const editorData = (text = "") => {
   //Texto del editor
   homilia.value.gospel = text;
-}
+};
 
 const submit = () => {
   // Crear un objeto FormData para manejar la solicitud
@@ -83,54 +83,62 @@ const submit = () => {
       Authorization: `Bearer ${authToken}`,
     },
   };
-
-  axios
-    .post(`${dataApi}/addHomilies`, formData, config)
-    .then((response) => {
-      Swal.fire("Correcto!", response.data.message, "success");
-      emit("closeMod");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  if (
+    homilia.value.gospel !== "" &&
+    homilia.value.img !== null &&
+    homilia.value.audio !== null
+  ) {
+    loader.value = false;
+    axios
+      .post(`${dataApi}/addHomilies`, formData, config)
+      .then((response) => {
+        if (response.data.data !== false) {
+          Swal.fire("Correcto!", response.data.message, "success");
+          emit("closeMod");
+          emit("getData");
+          clearFrm();
+          loader.value = true;
+        } else {
+          loader.value = true;
+          Swal.fire(
+            "Atención!",
+            response.data.message + homilia.value.date + "!",
+            "warning"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    Swal.fire(
+      "Atención!",
+      "Todos los campos deben se diligenciados!",
+      "warning"
+    );
+  }
+};
+const closeAudio = () => {
+  // Actualiza audioFile.value para que shouldShowAudio sea false
+  audioFile.value = false;
+  homilia.value.audio = null;
+};
+const closeImg = () => {
+  homilia.value.img = null;
 };
 
-
-// const validar = () => {
-//   if (Object.values(homilia).includes("")) {
-//     alerta.mensaje = "Todos los campos son obligatorios";
-//     alerta.tipo = "error";
-//     return;
-//   }
-//   // emit('guardar-paciente');
-//   // alerta.mensaje="Paciente almacenado correctamente";
-//   // alerta.tipo="exito";
-
-//   // setTimeout(()=>{
-//   //     Object.assign(alerta,{
-//   //         tipo: '',
-//   //         mensaje: ''
-//   //     })
-//   // },3000)
-// };
-
-
-
-// const submit = handleSubmit(async (values) => {
-
-//   console.log(values);
-//   console.log("karenn");
-
-// // const { imagen, ...propiedad } = values;
-// // const docRef = await addDoc(collection(db, "propiedades"), {
-// //     ...propiedad,
-// //     imagen:url.value,
-// //     ubicacion:center.value
-// // });
-// // if (docRef.id) {
-// //     router.push({ name: 'admin-propiedades' })
-// // }
-// })
+const clearFrm = () => {
+  homilia.value.date = "";
+  homilia.value.citation = "";
+  homilia.value.title = "";
+  homilia.value.reading = "";
+  homilia.value.gospel = "";
+  homilia.value.img = null;
+  homilia.value.audio = null;
+  audioFile.value = false;
+  selectedImage.value = null;
+  editorData("");
+};
 </script>
 
 <template>
@@ -139,7 +147,7 @@ const submit = () => {
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         <label for="date" class="block mb-2 text-sm font-medium text-gray-900"
-          >Fecha Homilia</label
+          >Fecha Homilía</label
         >
         <input
           type="date"
@@ -150,8 +158,14 @@ const submit = () => {
         />
       </div>
       <div class="w-full md:w-1/2 px-3">
-        <label for="citation" class="block mb-2 text-sm font-medium text-gray-900">Cita Bíblica</label>
-        <input type="text" id="citation"
+        <label
+          for="citation"
+          class="block mb-2 text-sm font-medium text-gray-900"
+          >Cita Bíblica</label
+        >
+        <input
+          type="text"
+          id="citation"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           required
           v-model="homilia.citation"
@@ -187,49 +201,68 @@ const submit = () => {
       </div>
     </div>
     <div class="mb-6">
-      <label for="gospel" class="block mb-2 text-sm font-medium text-gray-900">Evangelio</label>
+      <label class="block mb-2 text-sm font-medium text-gray-900"
+        >Evangelio</label
+      >
       <Editor @editor-data="editorData" />
     </div>
     <div class="mb-6">
-      <label for="gospel" class="block mb-2 text-sm font-medium text-gray-900">Imagen</label>
-      <div v-if="selectedImage" class="flex justify-center">
-        <img :src="selectedImage" alt="Imagen seleccionada"
-          class="max-w-full h-auto rounded border bg-white p-1 object-cover" />
+      <label class="block mb-2 text-sm font-medium text-gray-900">Imagen</label>
+      <div v-if="selectedImage" class="relative">
+        <button
+          class="absolute top-4 right-4 bg-red-500 text-white px-3 py-2 rounded-full"
+          @click="closeImg"
+        >
+          X
+        </button>
+        <img
+          :src="selectedImage"
+          alt="Imagen seleccionada"
+          class="max-w-full h-auto rounded border bg-white p-1 object-cover"
+        />
       </div>
 
-      <label v-else for="dropzone-file"
-        class="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+      <label
+        v-else
+        for="dropzone-file"
+        class="flex flex-col items-center justify-center w-full h-24 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+      >
         <div class="flex flex-col items-center justify-center pt-5 pb-6">
-          <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 20 16">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-          </svg>
-          <p class="text-xs text-gray-500">
-            SVG, PNG, JPG or GIF (MAX. 800x400px)
-          </p>
+          <i class="fa-solid fa-cloud-arrow-up fa-2x text-gray-500"></i>
+          <p class="text-xs text-gray-500 mt-2">SVG, PNG, JPG, JPEG</p>
         </div>
         <input
           id="dropzone-file"
           type="file"
           class="hidden"
           v-on:change="handleFileChange"
+          accept=".svg, .png, .jpg, .gif, .jpeg"
         />
       </label>
     </div>
     <div class="mb-6">
-      <label for="audio" class="block mb-2 text-sm font-medium text-gray-900">Audio</label>
-      <div v-if="shouldShowAudio">
-        <audio ref="audioPlayer" controls>
+      <label for="audio" class="block mb-2 text-sm font-medium text-gray-900"
+        >Audio</label
+      >
+      <div v-if="shouldShowAudio" class="flex items-center">
+        <audio ref="audioPlayer" controls @loadedmetadata="playAudio">
           Tu navegador no soporta la reproducción de audio.
         </audio>
+        <button
+          class="bg-red-500 text-white px-3 py-2 rounded-full ml-2"
+          @click="closeAudio"
+        >
+          X
+        </button>
       </div>
       <div v-else class="relative">
-        <label title="Click to upload" for="button2"
-          class="cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed">
+        <label
+          title="Click to upload"
+          for="button2"
+          class="cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed"
+        >
           <div class="w-max relative">
-            <img class="w-12" src="https://www.svgrepo.com/show/485545/upload-cicle.svg" alt="file upload icon"
-              width="300" height="300" />
+            <i class="fa-solid fa-upload fa-2x text-gray-700"></i>
           </div>
           <div class="relative">
             <span class="block text-base font-semibold relative text-gray-700">
@@ -237,17 +270,57 @@ const submit = () => {
             </span>
           </div>
         </label>
-        <input hidden="" type="file" name="button2" id="button2" v-on:change="handleAudioChange" />
+        <input
+          hidden=""
+          type="file"
+          name="button2"
+          id="button2"
+          v-on:change="handleAudioChange"
+          accept="audio/*"
+        />
       </div>
     </div>
-    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-      <button type="submit"
-        class="uppercase text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center">
+    <div
+      class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b"
+    >
+      <button
+        v-if="loader"
+        type="submit"
+        class="uppercase text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+      >
         Agregar
       </button>
-      <button data-modal-hide="defaultModal" type="button"
-        @click="$emit('closeMod')"
-        class="uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center">
+      <button
+        v-else
+        disabled
+        type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+      >
+        <svg
+          aria-hidden="true"
+          role="status"
+          class="inline w-4 h-4 mr-3 text-white animate-spin"
+          viewBox="0 0 100 101"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+            fill="#E5E7EB"
+          />
+          <path
+            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+            fill="currentColor"
+          />
+        </svg>
+        Guardando...
+      </button>
+      <button
+        data-modal-hide="defaultModal"
+        type="button"
+        @click="$emit('closeMod'), clearFrm()"
+        class="uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center"
+      >
         Cancelar
       </button>
     </div>

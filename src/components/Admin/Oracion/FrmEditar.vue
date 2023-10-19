@@ -53,7 +53,7 @@
 <script setup>
 import axios from "axios";
 import { dataApi } from "@/config/api";
-import { ref, watch  } from "vue";
+import { ref } from "vue";
 const user_id = localStorage.getItem("user_id");
 
 const emit = defineEmits(["closeMod"]);
@@ -83,6 +83,7 @@ const submitForm = () => {
         prayer.value.link = "";
         Swal.fire("Correcto!", response.data.message, "success");
         emit("closeMod");
+        emit("getPrayerDesc"); 
       } else {
         Swal.fire("Atención!", response.data.message, "warning");
       }
@@ -91,5 +92,4 @@ const submitForm = () => {
       console.error(error);
     });
 };
-
 </script>
