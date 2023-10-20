@@ -125,6 +125,7 @@ const closeAudio = () => {
 };
 const closeImg = () => {
   homilia.value.img = null;
+  selectedImage.value = null;
 };
 
 const clearFrm = () => {
@@ -209,7 +210,7 @@ const clearFrm = () => {
     <div class="mb-6">
       <label class="block mb-2 text-sm font-medium text-gray-900">Imagen</label>
       <div v-if="selectedImage" class="relative">
-        <button
+        <button 
           class="absolute top-4 right-4 bg-red-500 text-white px-3 py-2 rounded-full"
           @click="closeImg"
         >
