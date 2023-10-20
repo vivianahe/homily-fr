@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-between p-5">
+  <div class="flex justify-between p-5">
     <div class="text-start">
       <p class="font-semibold text-xl">Usuarios</p>
     </div>
@@ -13,9 +13,9 @@
     </div>
   </div>
 
-  <Table :dataHomilies="dataUsers" @editar="editar" @datelle="datelle" @eliminar="eliminar"
-    :columns="columnConfig" :busqueda="true"/>
-    <ModalVue :dataForm="dataForm" @getData="getUsers" />
+  <Table :dataHomilies="dataUsers" @editar="editar" @datelle="datelle" @eliminar="eliminar" :columns="columnConfig"
+    :busqueda="true" />
+  <ModalVue :dataForm="dataForm" @getData="getUsers" />
 </template>
 
 <script setup>
@@ -42,12 +42,11 @@ const agregar = () => {
 };
 const editar = async (id = null) => {
   openModal.value.click();
-  const { data } = await axios.get(`${dataApi}/users/${id}`);
-  if (data) {
-    dataForm.componet = markRaw(FrmEditar);
-    dataForm.nameModal = "Editar usuario";
-    dataForm.data = data;
-  }
+  //const { data } = await axios.get(`${dataApi}/users/${id}`);
+
+  dataForm.componet = markRaw(FrmEditar);
+  dataForm.nameModal = "Editar usuario";
+  dataForm.data = id;
 };
 const datelle = async (id = null) => {
   openModal.value.click();

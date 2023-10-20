@@ -12,10 +12,9 @@
       <button ref="openModal" class="hideen" data-modal-target="defaultModal" data-modal-toggle="defaultModal"></button>
     </div>
   </div>
-
-  <Table :dataHomilies="dataPrayerDesc" @editar="editar" @datelle="datelle" @eliminar="eliminar"
-    :columns="columnConfig" :busqueda="false"/>
-  <ModalVue :dataForm="dataForm" @getData="getPrayerDesc"/>
+  <Table :dataHomilies="dataPrayerDesc" @editar="editar" @datelle="datelle" @eliminar="eliminar" :columns="columnConfig"
+    :busqueda="false" />
+  <ModalVue :dataForm="dataForm" @getData="getPrayerDesc" />
 </template>
 
 <script setup>
@@ -47,7 +46,6 @@ const editar = async (id = null) => {
     dataForm.componet = markRaw(FrmEditar);
     dataForm.nameModal = "Editar oración del día";
     dataForm.data = data;
-    console.log(dataForm.data)
   }
 };
 const datelle = async (id = null) => {

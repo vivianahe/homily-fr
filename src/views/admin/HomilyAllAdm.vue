@@ -4,29 +4,16 @@
       <p class="font-semibold text-xl">Homilías</p>
     </div>
     <div class="text-end">
-      <button
-        class="bg-sky-500 hover:bg-sky-600 text-gray-800 py-2 px-4 rounded inline-flex items-center"
-        data-modal-target="defaultModal"
-        data-modal-toggle="defaultModal"
-        @click="agregar"
-      >
+      <button class="bg-sky-500 hover:bg-sky-600 text-gray-800 py-2 px-4 rounded inline-flex items-center"
+        data-modal-target="defaultModal" data-modal-toggle="defaultModal" @click="agregar">
         <i class="fa-solid fa-circle-plus text-white"></i>
         <span class="text-white">Agregar</span>
       </button>
-      <button
-      ref="openModal"
-      class="hideen"
-      data-modal-target="defaultModal"
-      data-modal-toggle="defaultModal"
-    ></button>
+      <button ref="openModal" class="hideen" data-modal-target="defaultModal" data-modal-toggle="defaultModal"></button>
     </div>
   </div>
 
-  <Table
-    :dataHomilies="dataHomilies"
-    :columns="columnConfig"
-    @editar="editar"
-  />
+  <Table :dataHomilies="dataHomilies" :columns="columnConfig" @editar="editar" />
   <ModalVue :dataForm="dataForm" @getData="getDataHomilies" />
 </template>
 
@@ -68,15 +55,6 @@ const columnConfig = [
   { key: "reading", label: "Lectura" },
   { key: "options", label: "Opciones" },
 ];
-// const editar = async (id = null) => {
-//   openModal.value.click();
-//   const { data } = await axios.get(`${dataApi}/getHomeliasId/${id}`);
-//   if (data) {
-//     dataForm.componet = markRaw(FormularioEditar);
-//     dataForm.nameModal = "Editar Homilia";
-//     dataForm.data = data;
-//   }
-// };
 const editar = async (id = null) => {
   // Obtener el token de autorización del almacenamiento local
   const authToken = localStorage.getItem("api_token");
@@ -97,10 +75,10 @@ const editar = async (id = null) => {
   axios
     .get(`${dataApi}/getHomeliasId/${id}`, config) // Utilizar GET para obtener detalles del homilía
     .then((response) => {
-    openModal.value.click();
-    dataForm.componet = markRaw(FormularioEditar);
-    dataForm.nameModal = "Editar Homilia";
-    dataForm.data = response.data;
+      openModal.value.click();
+      dataForm.componet = markRaw(FormularioEditar);
+      dataForm.nameModal = "Editar Homilia";
+      dataForm.data = response.data;
     })
     .catch((error) => {
       console.error(error);
