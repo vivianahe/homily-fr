@@ -42,11 +42,12 @@ const agregar = () => {
 };
 const editar = async (id = null) => {
   openModal.value.click();
-  //const { data } = await axios.get(`${dataApi}/users/${id}`);
-
-  dataForm.componet = markRaw(FrmEditar);
-  dataForm.nameModal = "Editar usuario";
-  dataForm.data = id;
+  const { data } = await axios.get(`${dataApi}/users/${id}`);
+  if (data) {
+    dataForm.componet = markRaw(FrmEditar);
+    dataForm.nameModal = "Editar usuario";
+    dataForm.data = data;
+  }
 };
 const datelle = async (id = null) => {
   openModal.value.click();

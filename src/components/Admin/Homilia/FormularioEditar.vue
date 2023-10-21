@@ -16,25 +16,15 @@ const { data } = defineProps({
     Object: true,
   },
 });
-const homilia = ref({
-  id: data ? data.id || null : null,
-  date: data ? data.date || "" : "",
-  citation: data ? data.citation || "" : "",
-  title: data ? data.title || "" : "",
-  reading: data ? data.reading || "" : "",
-  gospel: data ? data.gospel || "" : "",
-  img: data ? data.img || "" : "",
-  audio: data ? data.audio || "" : "",
-  user_id: user_id,
-});
 const closeImg = () => {
-  homilia.value.img = null;
+  data.img = null;
   selectedImage.value = null;
 };
+const dataImage=ref(null);
 const closeAudio = () => {
   // Actualiza audioFile.value para que shouldShowAudio sea false
   audioFile.value = false;
-  homilia.value.audio = null;
+  data.audio = null;
 };
 const alerta = reactive({
   tipo: "",
@@ -42,16 +32,16 @@ const alerta = reactive({
 });
 const handleFileChange = (event) => {
   // Cuando se selecciona un archivo, actualiza la propiedad 'img' con el objeto File
-  homilia.value.img = event.target.files[0];
   const file = event.target.files[0];
   if (file) {
+    data.img = file;
     // Crear una URL temporal para la imagen seleccionada
     selectedImage.value = URL.createObjectURL(file);
   }
-  console.log(homilia.value.img)
 };
+
 const handleAudioChange = (event) => {
-  homilia.value.audio = event.target.files[0];
+  data.audio = event.target.files[0];
   audioFile.value = event.target.files[0];
   playAudio();
 };
@@ -66,21 +56,29 @@ const shouldShowAudio = computed(() => !!audioFile.value);
 
 const editorData = (text = "") => {
   //Texto del editor
-  homilia.value.gospel = text;
+  data.gospel = text;
 };
 
 const submit = () => {
-  const id = homilia.value.id;
+  const id = data.id;
   // Crear un objeto FormData para manejar la solicitud
   const formData = new FormData();
-  formData.append("date", homilia.value.date);
-  formData.append("citation", homilia.value.citation);
-  formData.append("title", homilia.value.title);
-  formData.append("reading", homilia.value.reading);
-  formData.append("gospel", homilia.value.gospel);
-  formData.append("img", homilia.value.img);
-  formData.append("audio", homilia.value.audio);
-  formData.append("user_id", homilia.value.user_id);
+  formData.append("date", data.date);
+  formData.append("citation", data.citation);
+  formData.append("title", data.title);
+  formData.append("reading", data.reading);
+  formData.append("gospel", data.gospel);
+  if (data.img && data.img.type.startsWith('image/')) {
+    formData.append("img", data.img);
+  } else {
+    // data.img no es una imagen válida, muestra un mensaje de error o toma alguna acción adecuada
+    console.error("El archivo seleccionado no es una imagen válida.");
+  }
+
+  formData.append("audio", data.audio.name);
+  formData.append("user_id", data.user_id);
+
+  console.log(formData,"acaAAA")
 
   // Obtener el token de autorización del almacenamiento local
   const authToken = localStorage.getItem("api_token");
@@ -98,11 +96,10 @@ const submit = () => {
       Authorization: `Bearer ${authToken}`,
     },
   };
-  console.log(formData)
   if (
-    homilia.value.gospel !== "" &&
-    homilia.value.img !== null &&
-    homilia.value.audio !== null
+    data.gospel !== "" &&
+    data.img !== null &&
+    data.audio !== null
   ) {
     loader.value = false;
     axios
@@ -118,7 +115,7 @@ const submit = () => {
           loader.value = true;
           Swal.fire(
             "Atención!",
-            response.data.message + homilia.value.date + "!",
+            response.data.message + data.date + "!",
             "warning"
           );
         }
@@ -138,11 +135,11 @@ const submit = () => {
 
 onMounted(() => {
   if (data.img) {
-    homilia.value.img = data.img;
+    data.img = data.img;
     selectedImage.value = "http://homily-ba.test/support/imgHomily/" + data.img;
   }
   if (data.audio) {
-    homilia.value.audio = data.audio;
+    data.audio = data.audio;
     audioFile.value = "http://homily-ba.test/support/audioHomily/" + data.audio;
   }
 });
@@ -153,16 +150,16 @@ onMounted(() => {
     <Alerta v-if="alerta.mensaje" :alerta="alerta" />
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <label for="date" class="block mb-2 text-sm font-medium text-gray-900">Fecha Homilia</label>
+        <label for="date" class="block mb-2 text-sm font-medium text-gray-900">Fecha data</label>
         <input type="date" id="date"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="homilia.date" />
+          required v-model="data.date" />
       </div>
       <div class="w-full md:w-1/2 px-3">
         <label for="citation" class="block mb-2 text-sm font-medium text-gray-900">Cita Bíblica</label>
         <input type="text" id="citation"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="homilia.citation" />
+          required v-model="data.citation" />
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
@@ -170,13 +167,13 @@ onMounted(() => {
         <label for="title" class="block mb-2 text-sm font-medium text-gray-900">Título</label>
         <input type="text" id="title"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="homilia.title" />
+          required v-model="data.title" />
       </div>
       <div class="w-full md:w-1/2 px-3">
         <label for="reading" class="block mb-2 text-sm font-medium text-gray-900">Lectura</label>
         <input type="text" id="reading"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="homilia.reading" />
+          required v-model="data.reading" />
       </div>
     </div>
     <div class="mb-6">
@@ -199,9 +196,8 @@ onMounted(() => {
           <i class="fa-solid fa-cloud-arrow-up fa-2x text-gray-500"></i>
           <p class="text-xs text-gray-500 mt-2">SVG, PNG, JPG, JPEG</p>
         </div>
-        <input id="dropzone-file" type="file" class="hidden" v-on:change="handleFileChange"
-          accept=".svg, .png, .jpg, .gif, .jpeg" />
       </label>
+      <input id="dropzone-file" type="file" class="hidden" v-on:change="handleFileChange" accept=".svg, .png, .jpg, .gif, .jpeg" />
     </div>
     <div class="mb-6">
       <label for="audio" class="block mb-2 text-sm font-medium text-gray-900">Audio</label>

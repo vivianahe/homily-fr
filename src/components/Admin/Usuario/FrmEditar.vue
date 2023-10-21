@@ -5,19 +5,19 @@
         <label for="date" class="block mb-2 text-sm font-medium text-gray-900">Nombre:</label>
         <input type="text"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="user.name" />
+          required v-model="data.name" />
       </div>
       <div class="w-full mt-3 px-3">
         <label class="block mb-2 text-sm font-medium text-gray-900">Correo electrónico:</label>
         <input type="email"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required v-model="user.email" />
+          required v-model="data.email" />
       </div>
       <div class="w-full mt-3 px-3">
-        <label class="block mb-2 text-sm font-medium text-gray-900">Contraseña:{{ data }}</label>
+        <label class="block mb-2 text-sm font-medium text-gray-900">Contraseña:</label>
         <input type="password"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          v-model="user.password" />
+          v-model="data.password" />
       </div>
     </div>
 
@@ -37,38 +37,24 @@
 <script setup>
 import axios from "axios";
 import { dataApi } from "@/config/api";
-import { ref, watch, defineProps } from "vue";
+import { ref, defineProps } from "vue";
 const user_id = localStorage.getItem("user_id");
 
 const emit = defineEmits(["closeMod"]);
 const { data } = defineProps({
   data: {
-    type: Object, // Cambia "Object" por "type: Object"
+    type: Object,
+    default: {},
   },
 });
 
 const id = ref(null);
-const user = ref([]);
-
-const getUserId = async () => {
-  id.value = data;
-  const response = await axios.get(`${dataApi}/users/${id.value}`); // Utiliza id.value en lugar de id
-  user.value = response.data; // Almacena los datos en user.value
-};
-
-// Llama a getUserId cuando el componente se monta
-getUserId();
-
 const submitForm = () => {
-  const id = user.value.id;
+  const id = data.id;
   axios
-    .put(`${dataApi}/users/${id}`, user.value)
+    .put(`${dataApi}/users/${id}`, data)
     .then((response) => {
       if (response.data.message === "Usuario actualizado exitosamente!") {
-        user.value.id = "";
-        user.value.name = "";
-        user.value.email = "";
-        user.value.password = "";
         Swal.fire("Correcto!", response.data.message, "success");
         emit("closeMod");
         emit("getUsers");
@@ -80,14 +66,4 @@ const submitForm = () => {
       console.error(error);
     });
 };
-// Observa cambios en la propiedad "data" y llama a getUserId cuando cambia
-watch(data, (newData) => {
-  getUserId();
-});
-
-// Llama a getUserId cuando el componente se monta
-onMounted(() => {
-  getUserId();
-});
-
 </script>

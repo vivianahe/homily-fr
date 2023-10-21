@@ -2,13 +2,13 @@
   <section class="bg-white dark:bg-gray-900">
     <div class="pb-10">
       <p class="font-bold text-lg text-gray-900 py-4">
-        Nombre: <span class="font-normal">{{ user.name }}</span>
+        Nombre: <span class="font-normal">{{ data.name }}</span>
       </p>
       <p class="font-bold text-lg text-gray-900 py-4">
-        Correo electrónico: <span class="font-normal">{{ user.email }}</span>
+        Correo electrónico: <span class="font-normal">{{ data.email }}</span>
       </p>
       <p class="font-bold text-lg text-gray-900 py-4">
-        Fecha creación: <span class="font-normal">{{ user.created_at }}</span>
+        Fecha creación: <span class="font-normal">{{ data.created_at.substr(0,10) }}</span>
       </p>
     </div>
     <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 const user_id = localStorage.getItem("user_id");
 
 const emit = defineEmits(["closeMod"]);
@@ -31,10 +30,4 @@ const { data } = defineProps({
   },
 });
 
-const user = ref({
-  id: data ? data.id || null : null,
-  name: data ? data.name || "" : "",
-  email: data ? data.email || "" : "",
-  created_at: data ? data.created_at.substr(0, 10) || "" : "",
-});
 </script>
