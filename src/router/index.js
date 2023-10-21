@@ -34,6 +34,11 @@ const router = createRouter({
           name: 'userView',
           component: () => import('../views/admin/UsersAll.vue'),
         },
+        {
+          path: 'addHomily',
+          name: 'HomilyAddView',
+          component: () => import('../views/admin/HomilyAdd.vue'),
+        },
       ]
     },
     {
