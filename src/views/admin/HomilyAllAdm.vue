@@ -13,7 +13,6 @@
   </div>
 
   <Table :dataHomilies="dataHomilies" :columns="columnConfig" @editar="editar" @datelle="datelle" @eliminar="eliminar" />
-  
 </template>
 
 <script setup>
@@ -25,6 +24,9 @@ import { dataApi } from "../../config/api";
 import FormularioAgregar from "@/components/Admin/Homilia/FormularioAgregar.vue";
 import FormularioEditar from "@/components/Admin/Homilia/FormularioEditar.vue";
 import FormularioDetalle from "@/components/Admin/Homilia/FormularioDetalle.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const dataHomilies = ref([]);
 const dataForm = reactive({});
@@ -42,9 +44,9 @@ const getDataHomilies = async () => {
     console.error("Error al obtener los datos de Homilies:", error);
   }
 };
-const agregar = () => {
-  router.push({ name: 'addHomily' });
-};
+// const agregar = () => {
+//   router.push({ name: 'addHomily' });
+// };
 const columnConfig = [
   { key: "date", label: "Fecha de evangelio" },
   { key: "citation", label: "Cita Bíblica" },
@@ -52,59 +54,39 @@ const columnConfig = [
   { key: "reading", label: "Lectura" },
   { key: "options", label: "Opciones" },
 ];
-const editar = async (id = null) => {
-  // Obtener el token de autorización del almacenamiento local
-  const authToken = localStorage.getItem("api_token");
 
-  // Verificar si se ha encontrado el token
-  if (!authToken) {
-    console.error("Token de autorización no encontrado");
-    return;
-  }
 
-  // Configurar las cabeceras de la solicitud
-  const config = {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  };
+const editar = (id) => {
+  router.push({ name: 'HomilyEdit', params: { id: id } });
+}
+const datelle = (id) => {
+  router.push({ name: 'HomilyDetail', params: { id: id } });
+}
 
-  axios
-    .get(`${dataApi}/getHomeliasId/${id}`, config) // Utilizar GET para obtener detalles del homilía
-    .then((response) => {
-      dataForm.componet = markRaw(FormularioEditar);
-      dataForm.nameModal = "Editar Homilía";
-      dataForm.data = response.data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
+// const datelle = async (id = null) => {
+//   // Obtener el token de autorización del almacenamiento local
+//   const authToken = localStorage.getItem("api_token");
 
-const datelle = async (id = null) => {
-  // Obtener el token de autorización del almacenamiento local
-  const authToken = localStorage.getItem("api_token");
+//   // Verificar si se ha encontrado el token
+//   if (!authToken) {
+//     console.error("Token de autorización no encontrado");
+//     return;
+//   }
 
-  // Verificar si se ha encontrado el token
-  if (!authToken) {
-    console.error("Token de autorización no encontrado");
-    return;
-  }
+//   // Configurar las cabeceras de la solicitud
+//   const config = {
+//     headers: {
+//       Authorization: `Bearer ${authToken}`,
+//     },
+//   };
 
-  // Configurar las cabeceras de la solicitud
-  const config = {
-    headers: {
-      Authorization: `Bearer ${authToken}`,
-    },
-  };
-
-  const { data } = await axios.get(`${dataApi}/getHomilies/${id}`, config);
-  if (data) {
-    dataForm.componet = markRaw(FormularioDetalle);
-    dataForm.nameModal = "Detalle homilía";
-    dataForm.data = data;
-  }
-};
+//   const { data } = await axios.get(`${dataApi}/getHomilies/${id}`, config);
+//   if (data) {
+//     dataForm.componet = markRaw(FormularioDetalle);
+//     dataForm.nameModal = "Detalle homilía";
+//     dataForm.data = data;
+//   }
+// };
 
 
 const eliminar = async (id = null) => {

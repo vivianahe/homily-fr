@@ -18,7 +18,7 @@ const router = createRouter({
       name: 'admin',
       component: () => import('../views/admin/DashboardView.vue'),
       meta: { requiresAuth: true },
-      children:[
+      children: [
         {
           path: 'homilyAllAdm',
           name: 'homilyAllAdm',
@@ -38,6 +38,16 @@ const router = createRouter({
           path: 'addHomily',
           name: 'HomilyAddView',
           component: () => import('../views/admin/HomilyAdd.vue'),
+        },
+        {
+          path: 'editHomily/:id',
+          name: 'HomilyEdit',
+          component: () => import('../views/admin/HomilyEdit.vue'),
+        },
+        {
+          path: 'detailHomily/:id',
+          name: 'HomilyDetail',
+          component: () => import('../views/admin/HomilyDetail.vue'),
         },
       ]
     },

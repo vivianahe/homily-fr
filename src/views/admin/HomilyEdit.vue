@@ -8,7 +8,7 @@
                 </svg>
             </div>
             <div>
-                <p class="text-xl mb-3 font-semibold">Agregar Homilía</p>
+                <p class="text-xl mb-3 font-semibold">Editar Homilía</p>
             </div>
             <div></div>
         </div>
@@ -112,7 +112,7 @@
                     </svg>
                     Guardando...
                 </button>
-                <button type="button" @click="clearFrm()"
+                <button type="button" @click="clearFrm"
                     class="uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center">
                     Cancelar
                 </button>
@@ -123,18 +123,22 @@
 
 <script setup>
 import Editor from "../../components/Admin/Editor.vue";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import Alerta from "../../components/Admin/Alerta.vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { dataApi } from "@/config/api";
-const router = useRouter();
+
 const user_id = localStorage.getItem("user_id");
 const emit = defineEmits(["getData"]);
 const selectedImage = ref(null);
 const audioFile = ref(null);
 const audioPlayer = ref(null);
 const loader = ref(true);
+
+const router = useRouter();
+const route = useRoute();
+const HomilyId = route.params.id;
 
 const homilia = ref({
     id: null,
@@ -187,9 +191,6 @@ const submit = () => {
     formData.append("title", homilia.value.title);
     formData.append("reading", homilia.value.reading);
     formData.append("gospel", homilia.value.gospel);
-    formData.append("img", homilia.value.img);
-    formData.append("audio", homilia.value.audio);
-    formData.append("user_id", homilia.value.user_id);
 
     // Obtener el token de autorización del almacenamiento local
     const authToken = localStorage.getItem("api_token");
@@ -215,15 +216,11 @@ const submit = () => {
     ) {
         loader.value = false;
         axios
-            .post(`${dataApi}/addHomilies`, formData, config)
+            .put(`${dataApi}/getHomilies/${HomilyId}`, formData, config)
             .then((response) => {
                 if (response.data.data !== false) {
                     Swal.fire("Correcto!", response.data.message, "success");
-                    emit("closeMod");
-                    emit("getData");
-                    clearFrm();
                     loader.value = true;
-                    router.push({ name: 'homilyAllAdm' });
                 } else {
                     loader.value = true;
                     Swal.fire(
@@ -260,15 +257,45 @@ const closeImg = () => {
 
 const clearFrm = () => {
     router.push({ name: 'homilyAllAdm' });
-    homilia.value.date = "";
-    homilia.value.citation = "";
-    homilia.value.title = "";
-    homilia.value.reading = "";
-    homilia.value.gospel = "";
-    homilia.value.img = null;
-    homilia.value.audio = null;
-    audioFile.value = false;
-    selectedImage.value = null;
-    editorData("");
 };
+
+const getData = () => {
+    const authToken = localStorage.getItem("api_token");
+
+    // Verificar si se ha encontrado el token
+    if (!authToken) {
+        console.error("Token de autorización no encontrado");
+        return;
+    }
+
+    // Configurar las cabeceras de la solicitud
+    const config = {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        },
+    };
+
+    axios
+        .get(`${dataApi}/getHomeliasId/${HomilyId}`, config) // Utilizar GET para obtener detalles del homilía
+        .then((response) => {
+            homilia.value.id = response.data.id;
+            homilia.value.date = response.data.date;
+            homilia.value.citation = response.data.citation;
+            homilia.value.title = response.data.title;
+            homilia.value.reading = response.data.reading;
+            homilia.value.gospel = response.data.gospel;
+            homilia.value.img = response.data.img;
+            selectedImage.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.img;
+            // selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.img;
+            homilia.value.audio = response.data.audio;
+            // selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.audio;
+            audioFile.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.audio;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+onMounted(() => {
+    getData();
+})
 </script>
