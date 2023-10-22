@@ -21,6 +21,9 @@ module.exports = {
         'custom-found': '#f2f2f2',
         'custom-text-yell': '#febe16',
       },
+      borderRadius: {
+        'xl': '16px',
+      }
     },
   },
   plugins: [

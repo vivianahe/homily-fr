@@ -15,8 +15,11 @@
             <a>
               <div
                 class="rounded-lg overflow-hidden transition-transform duration-200 transform scale-100 hover:scale-105">
-                <img v-if="dataHomilyDesc.img" class="w-[400px] h-[400px] object-cover"
-                  :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyDesc.img" />
+                <!-- <img v-if="dataHomilyDesc.img" class="w-[400px] h-[400px] object-cover"
+                  :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyDesc.img" /> -->
+
+                  <img v-if="dataHomilyDesc.img" class="w-[400px] h-[400px] object-cover"
+                  :src="'http://127.0.0.1:8000/support/imgHomily/' + dataHomilyDesc.img" />
               </div>
             </a>
             <figcaption class="absolute bottom-0 left-0 right-0 px-4 pb-4 text-lg text-white text-center">
