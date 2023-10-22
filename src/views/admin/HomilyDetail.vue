@@ -13,31 +13,33 @@
             <div></div>
         </div>
 
-
-        <section class="bg-gray-900">
-            <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
-                <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl text-white">{{
+        <section class="bg-gray-700">
+            <div class="py-4">
+                <audio controls>
+                    <source :src="homilia.audio" type="audio/mp4" />
+                    Tu navegador no admite el elemento de audio.
+                </audio>
+            </div>
+            <div class="py-8 px-4 mx-auto max-w-screen-xl text-left lg:py-16">
+                <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl text-white">{{
                     homilia.title }}</h1>
-                <p class="mb-8 text-lg font-normal  lg:text-xl sm:px-16 lg:px-48 text-gray-400">{{ homilia.citation }}</p>
-                <p class="mb-8 text-lg font-normal  lg:text-xl sm:px-16 lg:px-48 text-gray-400" v-html="homilia.gospel"></p>
-                <p class="mb-8 text-lg font-normal  lg:text-xl sm:px-16 lg:px-48 text-gray-400" v-html="homilia.reading">
-                </p>
-                <p class="mb-8 text-lg font-normal  lg:text-xl sm:px-16 lg:px-48 text-gray-400" v-html="homilia.date"></p>
-                <div>
-                    <img :src="homilia.img" alt="">
+                <div class="flex justify-between">
+                    <p class="text-lg font-normal text-gray-200">{{ homilia.reading }} </p>
+                    <p class="text-lg text-gray-300 font-extrabold">{{ homilia.date }}</p>
                 </div>
-                <div class="py-4">
-                    <audio controls>
-                        <source :src="homilia.audio" type="audio/mp4" />
-                        Tu navegador no admite el elemento de audio.
-                    </audio>
+
+                <p class="mb-8 text-lg text-gray-300 font-extrabold">{{ homilia.citation }}</p>
+                <p class="mb-8 text-lg font-normal text-gray-200" v-html="homilia.gospel"></p>
+
+                <div class="w-3/4 mx-auto">
+                    <img :src="homilia.img" alt="" class="w-full">
                 </div>
             </div>
         </section>
 
         <hr>
         <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-            <button type="button" @click="clearFrm"
+            <button type="button" @click="volver"
                 class="cursor-pointer uppercase text-gray-800 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center">
                 Cancelar
             </button>

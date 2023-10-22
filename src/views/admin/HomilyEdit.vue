@@ -186,12 +186,13 @@ const editorData = (text = "") => {
 const submit = () => {
     // Crear un objeto FormData para manejar la solicitud
     const formData = new FormData();
+    formData.append("id", HomilyId);
     formData.append("date", homilia.value.date);
     formData.append("citation", homilia.value.citation);
     formData.append("title", homilia.value.title);
     formData.append("reading", homilia.value.reading);
     formData.append("gospel", homilia.value.gospel);
-
+    formData.append("user_id", homilia.value.user_id);
     // Obtener el token de autorización del almacenamiento local
     const authToken = localStorage.getItem("api_token");
 
@@ -216,7 +217,7 @@ const submit = () => {
     ) {
         loader.value = false;
         axios
-            .put(`${dataApi}/getHomilies/${HomilyId}`, formData, config)
+            .post(`${dataApi}/updateHomilia/`, formData, config)
             .then((response) => {
                 if (response.data.data !== false) {
                     Swal.fire("Correcto!", response.data.message, "success");
