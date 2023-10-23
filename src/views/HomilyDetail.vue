@@ -2,7 +2,7 @@
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import { useRoute } from "vue-router";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onBeforeUnmount } from "vue";
 import axios from "axios";
 import { dataApi } from "../config/api";
 import { initFlowbite } from "flowbite";
@@ -10,6 +10,26 @@ import { initFlowbite } from "flowbite";
 const route = useRoute();
 const HomilyId = route.params.id;
 const dataHomilyId = ref([]);
+const showBackToTopButton = ref(false);
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
+const checkScrollPosition = () => {
+  showBackToTopButton.value = window.scrollY > 100; // Cambia 100 al valor deseado para mostrar el botón
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", checkScrollPosition);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", checkScrollPosition);
+});
 const getHomilyId = async () => {
   const { data } = await axios.get(`${dataApi}/homilies/${HomilyId}`);
   dataHomilyId.value = data;
@@ -61,31 +81,20 @@ onMounted(() => {
 
   <div class="flex justify-center items-center relative">
     <div class="relative z-10 mt-10 mb-10">
-      <img
-        v-if="dataHomilyId.img"
-        class="rounded-sm w-[800px] h-[300px] object-cover"
-        :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyId.img"
-        alt="Imagen"
-      />
+      <img v-if="dataHomilyId.img" class="rounded-sm w-[800px] h-[300px] object-cover"
+        :src="'http://homily-ba.test/support/imgHomily/' + dataHomilyId.img" alt="Imagen" />
     </div>
 
-    <div
-      class="absolute top-0 left-0 w-1/2 h-[400px] bg-gray-200 opacity-75"
-    ></div>
+    <div class="absolute top-0 left-0 w-1/2 h-[400px] bg-gray-200 opacity-75"></div>
   </div>
 
-  <div
-    class="flex flex-col md:flex-row md:items-center md:justify-center mt-8 mb-4"
-  >
+  <div class="flex flex-col md:flex-row md:items-center md:justify-center mt-8 mb-4">
     <p class="text-2xl font-semibold">Homilía</p>
     <div class="my-2 md:my-0 md:mx-2"></div>
     <!-- Espacio vertical en pantallas pequeñas, espacio horizontal en pantallas medianas y grandes -->
     <audio controls>
-      <source
-        v-if="dataHomilyId.audio"
-        :src="'http://homily-ba.test/support/audioHomily/' + dataHomilyId.audio"
-        type="audio/mp4"
-      />
+      <source v-if="dataHomilyId.audio" :src="'http://homily-ba.test/support/audioHomily/' + dataHomilyId.audio"
+        type="audio/mp4" />
       Tu navegador no admite el elemento de audio.
     </audio>
   </div>
@@ -105,5 +114,9 @@ onMounted(() => {
   </div>
   <hr />
   <br />
+  <button v-show="showBackToTopButton" @click="scrollToTop" class="fixed bottom-4 right-4 w-12 h-12 bg-custom-blue text-white rounded-full shadow-lg hover:bg-blue-700 transition-all 
+      duration-300 z-50">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
   <Footer />
 </template>

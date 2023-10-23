@@ -6,16 +6,9 @@
           <p class="mb-3 font-bold text-custom-text md:text-2xl">
             Oración del día
           </p>
-          <iframe
-            width="260"
-            height="315"
-            :src="
-                    'https://www.youtube.com/embed/' +
-                    dataPrayerDesc.link
-                  "
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
+          <iframe width="260" height="315" :src="'https://www.youtube.com/embed/' +
+            dataPrayerDesc.link
+            " frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="bg-white rounded-lg p-8 md:p-12">
           <p class="mb-3 font-bold text-custom-text md:text-2xl">Sacerdote</p>
@@ -32,15 +25,9 @@
         </div>
         <div class="md:flex md:flex-col md:items-center">
           <div class="relative bg-white rounded-lg sm:p-8 md:p-12">
-            <div
-              class="absolute inset-0 bg-no-repeat bg-center bg-cover md:bg-contain"
-              style="background-image: url('/img/decoration.png')"
-            ></div>
-            <img
-              class="h-auto max-w-full rounded-full relative z-10 mx-auto"
-              src="/img/sacerdote.jpg"
-              alt="Sacerdote"
-            />
+            <div class="absolute inset-0 bg-no-repeat bg-center bg-cover md:bg-contain"
+              style="background-image: url('/img/decoration.png')"></div>
+            <img class="h-auto max-w-full rounded-full relative z-10 mx-auto" src="/img/sacerdote.jpg" alt="Sacerdote" />
           </div>
         </div>
       </div>
@@ -56,7 +43,6 @@ const dataPrayerDesc = ref([]);
 const getPrayerDesc = async () => {
   const { data } = await axios.get(`${dataApi}/prayers`);
   dataPrayerDesc.value = data[0];
-  console.log(dataPrayerDesc)
 };
 onMounted(() => {
   getPrayerDesc();
