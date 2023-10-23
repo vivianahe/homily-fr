@@ -71,8 +71,10 @@
             <div class="mb-6">
                 <label for="audio" class="block mb-2 text-sm font-medium text-gray-900">Audio</label>
                 <div v-if="shouldShowAudio" class="flex items-center">
-                    <audio ref="audioPlayer" controls @loadedmetadata="playAudio">
-                        Tu navegador no soporta la reproducción de audio.
+                    <audio controls class="text-center">
+                        <source :src="'http://homily-ba.test/support/audioHomily/'+homilia.audio"
+                            type="audio/mp4" />
+                        Tu navegador no admite el elemento de audio.
                     </audio>
                     <button class="bg-red-500 text-white px-3 py-2 rounded-full ml-2" @click="closeAudio">
                         X
@@ -126,8 +128,8 @@ import Editor from "../../components/Admin/Editor.vue";
 import { ref, reactive, computed, onMounted } from "vue";
 import Alerta from "../../components/Admin/Alerta.vue";
 import axios from "axios";
-import { useRouter, useRoute } from "vue-router";
 import { dataApi } from "@/config/api";
+import { useRouter, useRoute } from "vue-router";
 
 const user_id = localStorage.getItem("user_id");
 const emit = defineEmits(["getData"]);
@@ -193,6 +195,8 @@ const submit = () => {
     formData.append("reading", homilia.value.reading);
     formData.append("gospel", homilia.value.gospel);
     formData.append("user_id", homilia.value.user_id);
+    formData.append("img", homilia.value.img);
+    formData.append("audio", homilia.value.audio);
     // Obtener el token de autorización del almacenamiento local
     const authToken = localStorage.getItem("api_token");
 
@@ -217,11 +221,12 @@ const submit = () => {
     ) {
         loader.value = false;
         axios
-            .post(`${dataApi}/updateHomilia/`, formData, config)
+            .post(`${dataApi}/updateHomilia`, formData, config)
             .then((response) => {
-                if (response.data.data !== false) {
+                if (response.data.data === false) {
                     Swal.fire("Correcto!", response.data.message, "success");
                     loader.value = true;
+                    router.push({ name: 'homilyAllAdm' });
                 } else {
                     loader.value = true;
                     Swal.fire(
@@ -236,6 +241,7 @@ const submit = () => {
                 console.error(error);
             });
     } else {
+        loader.value = true;
         Swal.fire(
             "Atención!",
             "Todos los campos deben se diligenciados!",
@@ -286,11 +292,11 @@ const getData = () => {
             homilia.value.reading = response.data.reading;
             homilia.value.gospel = response.data.gospel;
             homilia.value.img = response.data.img;
-            selectedImage.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.img;
-            // selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.img;
+            //selectedImage.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.img;
+            selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.img;
             homilia.value.audio = response.data.audio;
-            // selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.audio;
-            audioFile.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.audio;
+            //audioFile.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.audio;
+            audioFile.value = "http://homily-ba.test0/support/imgHomily/" + response.data.audio;
         })
         .catch((error) => {
             console.error(error);

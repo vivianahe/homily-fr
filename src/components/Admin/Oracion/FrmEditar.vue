@@ -54,10 +54,24 @@ const { data } = defineProps({
   },
 });
 const submitForm = () => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   loader.value = false;
   const id = data.id;
   axios
-    .put(`${dataApi}/prayers/${id}`, data)
+    .put(`${dataApi}/prayers/${id}`, data, config)
     .then((response) => {
       if (response.data.data === false) {
         Swal.fire("Correcto!", response.data.message, "success");

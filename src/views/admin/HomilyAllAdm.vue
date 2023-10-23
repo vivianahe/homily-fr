@@ -21,15 +21,11 @@ import Table from "../../components/Admin/Table.vue";
 import { initFlowbite } from "flowbite";
 import axios from "axios";
 import { dataApi } from "../../config/api";
-import FormularioAgregar from "@/components/Admin/Homilia/FormularioAgregar.vue";
-import FormularioEditar from "@/components/Admin/Homilia/FormularioEditar.vue";
-import FormularioDetalle from "@/components/Admin/Homilia/FormularioDetalle.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
 const dataHomilies = ref([]);
-const dataForm = reactive({});
 const getDataHomilies = async () => {
   const authToken = localStorage.getItem("api_token");
   const axiosConfig = {
@@ -44,9 +40,6 @@ const getDataHomilies = async () => {
     console.error("Error al obtener los datos de Homilies:", error);
   }
 };
-// const agregar = () => {
-//   router.push({ name: 'addHomily' });
-// };
 const columnConfig = [
   { key: "date", label: "Fecha de evangelio" },
   { key: "citation", label: "Cita Bíblica" },
@@ -62,33 +55,6 @@ const editar = (id) => {
 const datelle = (id) => {
   router.push({ name: 'HomilyDetail', params: { id: id } });
 }
-
-// const datelle = async (id = null) => {
-//   // Obtener el token de autorización del almacenamiento local
-//   const authToken = localStorage.getItem("api_token");
-
-//   // Verificar si se ha encontrado el token
-//   if (!authToken) {
-//     console.error("Token de autorización no encontrado");
-//     return;
-//   }
-
-//   // Configurar las cabeceras de la solicitud
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${authToken}`,
-//     },
-//   };
-
-//   const { data } = await axios.get(`${dataApi}/getHomilies/${id}`, config);
-//   if (data) {
-//     dataForm.componet = markRaw(FormularioDetalle);
-//     dataForm.nameModal = "Detalle homilía";
-//     dataForm.data = data;
-//   }
-// };
-
-
 const eliminar = async (id = null) => {
   // Obtener el token de autorización del almacenamiento local
   const authToken = localStorage.getItem("api_token");

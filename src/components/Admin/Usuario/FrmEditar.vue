@@ -50,9 +50,23 @@ const { data } = defineProps({
 
 const id = ref(null);
 const submitForm = () => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   const id = data.id;
   axios
-    .put(`${dataApi}/users/${id}`, data)
+    .put(`${dataApi}/users/${id}`, data, config)
     .then((response) => {
       if (response.data.message === "Usuario actualizado exitosamente!") {
         Swal.fire("Correcto!", response.data.message, "success");

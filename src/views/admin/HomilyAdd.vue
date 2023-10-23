@@ -71,7 +71,7 @@
             <div class="mb-6">
                 <label for="audio" class="block mb-2 text-sm font-medium text-gray-900">Audio</label>
                 <div v-if="shouldShowAudio" class="flex items-center">
-                    <audio ref="audioPlayer" controls @loadedmetadata="playAudio">
+                    <audio ref="audioPlayer" controls @click="playAudio">
                         Tu navegador no soporta la reproducción de audio.
                     </audio>
                     <button class="bg-red-500 text-white px-3 py-2 rounded-full ml-2" @click="closeAudio">
@@ -168,10 +168,13 @@ const handleAudioChange = (event) => {
 
 const playAudio = () => {
     if (audioFile.value && audioPlayer.value) {
-        audioPlayer.value.src = URL.createObjectURL(audioFile.value);
-        audioPlayer.value.play(); // Iniciar la reproducción
-    }
+    audioPlayer.value.src = URL.createObjectURL(audioFile.value);
+    audioPlayer.value.oncanplaythrough = () => {
+      audioPlayer.value.play();
+    };
+  }
 };
+
 const shouldShowAudio = computed(() => !!audioFile.value);
 
 const editorData = (text = "") => {

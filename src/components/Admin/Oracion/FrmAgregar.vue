@@ -61,9 +61,23 @@ const prayer = ref({
 });
 
 const submitForm = () => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   loader.value = false;
   axios
-    .post(`${dataApi}/prayers`, prayer.value)
+    .post(`${dataApi}/prayers`, prayer.value, config)
     .then((response) => {
       if (response.data.message === "Oración guardada exitosamente!") {
         clearFrm();

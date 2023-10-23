@@ -40,8 +40,22 @@ const agregar = () => {
   dataForm.nameModal = "Agregar oración del día";
 };
 const editar = async (id = null) => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   openModal.value.click();
-  const { data } = await axios.get(`${dataApi}/prayers/${id}`);
+  const { data } = await axios.get(`${dataApi}/prayers/${id}`, config);
   if (data) {
     dataForm.componet = markRaw(FrmEditar);
     dataForm.nameModal = "Editar oración del día";
@@ -49,8 +63,22 @@ const editar = async (id = null) => {
   }
 };
 const datelle = async (id = null) => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   openModal.value.click();
-  const { data } = await axios.get(`${dataApi}/prayers/${id}`);
+  const { data } = await axios.get(`${dataApi}/prayers/${id}`, config);
   if (data) {
     dataForm.componet = markRaw(FrmDetalle);
     dataForm.nameModal = "Detalle oración del día";
@@ -60,7 +88,21 @@ const datelle = async (id = null) => {
 
 
 const eliminar = async (id) => {
-  const { data } = await axios.delete(`${dataApi}/prayers/${id}`);
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+  const { data } = await axios.delete(`${dataApi}/prayers/${id}`, config);
   if (data) {
     if (data.data === "ok") {
       Swal.fire("Correcto!", data.message, "success");
@@ -75,7 +117,21 @@ const eliminar = async (id) => {
 // Componente padre
 const dataPrayerDesc = ref([]);
 const getPrayerDesc = async () => {
-  const { data } = await axios.get(`${dataApi}/prayers`);
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+  const { data } = await axios.get(`${dataApi}/prayers`, config);
   dataPrayerDesc.value = data;
 };
 onMounted(() => {

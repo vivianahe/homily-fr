@@ -41,8 +41,22 @@ const agregar = () => {
   dataForm.nameModal = "Agregar usuario";
 };
 const editar = async (id = null) => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   openModal.value.click();
-  const { data } = await axios.get(`${dataApi}/users/${id}`);
+  const { data } = await axios.get(`${dataApi}/users/${id}`, config);
   if (data) {
     dataForm.componet = markRaw(FrmEditar);
     dataForm.nameModal = "Editar usuario";
@@ -50,8 +64,22 @@ const editar = async (id = null) => {
   }
 };
 const datelle = async (id = null) => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   openModal.value.click();
-  const { data } = await axios.get(`${dataApi}/users/${id}`);
+  const { data } = await axios.get(`${dataApi}/users/${id}`, config);
   if (data) {
     dataForm.componet = markRaw(FrmDetalle);
     dataForm.nameModal = "Detalle usuario";
@@ -60,7 +88,21 @@ const datelle = async (id = null) => {
 };
 
 const eliminar = async (id = null) => {
-  const { data } = await axios.delete(`${dataApi}/users/${id}`);
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+  const { data } = await axios.delete(`${dataApi}/users/${id}`, config);
   if (data) {
     if (data.data === "ok") {
       Swal.fire("Correcto!", data.message, "success");
@@ -73,7 +115,21 @@ const eliminar = async (id = null) => {
 
 const dataUsers = ref([]);
 const getUsers = async () => {
-  const { data } = await axios.get(`${dataApi}/users`);
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
+  const { data } = await axios.get(`${dataApi}/users`, config);
   dataUsers.value = data;
 };
 

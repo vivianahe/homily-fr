@@ -13,23 +13,23 @@
             <div></div>
         </div>
 
-        <section class="bg-gray-700">
-            <div class="py-4">
-                <audio controls>
-                    <source :src="homilia.audio" type="audio/mp4" />
-                    Tu navegador no admite el elemento de audio.
-                </audio>
-            </div>
+        <section class="bg-gray-500">
             <div class="py-8 px-4 mx-auto max-w-screen-xl text-left lg:py-16">
-                <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-4xl text-white">{{
+                <h1 class="mb-4 text-xl font-extrabold tracking-tight leading-none md:text-3xl lg:text-2xl text-white">{{
                     homilia.title }}</h1>
                 <div class="flex justify-between">
                     <p class="text-lg font-normal text-gray-200">{{ homilia.reading }} </p>
                     <p class="text-lg text-gray-300 font-extrabold">{{ homilia.date }}</p>
                 </div>
-
                 <p class="mb-8 text-lg text-gray-300 font-extrabold">{{ homilia.citation }}</p>
                 <p class="mb-8 text-lg font-normal text-gray-200" v-html="homilia.gospel"></p>
+                <div class="py-4 flex justify-center">
+                    <audio controls class="text-center">
+                        <source v-if="homilia.audio" :src="homilia.audio"
+                            type="audio/mp4" />
+                        Tu navegador no admite el elemento de audio.
+                    </audio>
+                </div>
 
                 <div class="w-3/4 mx-auto">
                     <img :src="homilia.img" alt="" class="w-full">
@@ -48,9 +48,7 @@
 </template>
 
 <script setup>
-import Editor from "../../components/Admin/Editor.vue";
 import { ref, onMounted } from "vue";
-import Alerta from "../../components/Admin/Alerta.vue";
 import axios from "axios";
 import { useRouter, useRoute } from "vue-router";
 import { dataApi } from "@/config/api";
@@ -104,8 +102,8 @@ const getData = () => {
             homilia.value.title = response.data.title;
             homilia.value.reading = response.data.reading;
             homilia.value.gospel = response.data.gospel;
-            homilia.value.img = "http://127.0.0.1:8000/support/imgHomily/" + response.data.img;
-            homilia.value.audio = "http://127.0.0.1:8000/support/imgHomily/" + response.data.audio;
+            homilia.value.img = "http://homily-ba.test/support/imgHomily/" + response.data.img;
+            homilia.value.audio = "http://homily-ba.test/support/audioHomily/" + response.data.audio;
         })
         .catch((error) => {
             console.error(error);

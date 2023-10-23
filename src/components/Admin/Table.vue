@@ -179,7 +179,6 @@ const confirmarEliminar = (id) => {
     cancelButtonText: 'Cancelar'
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(id)
       emit('eliminar', id);
     }
   })

@@ -68,9 +68,23 @@ const user = ref({
 });
 
 const submitForm = () => {
+  const authToken = localStorage.getItem("api_token");
+
+  // Verificar si se ha encontrado el token
+  if (!authToken) {
+    console.error("Token de autorización no encontrado");
+    return;
+  }
+
+  // Configurar las cabeceras de la solicitud
+  const config = {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  };
   loader.value = false;
   axios
-    .post(`${dataApi}/users`, user.value)
+    .post(`${dataApi}/users`, user.value, config)
     .then((response) => {
       if (response.data.message === "Usuario guardado exitosamente!") {
         user.value.id = "";
