@@ -1,7 +1,25 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { initFlowbite } from "flowbite";
-import { RouterView } from "vue-router";
+import { RouterView,useRouter } from "vue-router";
+
+const router = useRouter();
+
+const confirmarLogOut = () => {
+  Swal.fire({
+    title: '¿Estás seguro de cerrar sesión?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, salir!',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      LogOut();
+    }
+  })
+}
 
 const LogOut = () => {
   localStorage.removeItem("authToken");
@@ -9,6 +27,7 @@ const LogOut = () => {
   localStorage.removeItem("nameUser");
   localStorage.removeItem("emailUser");
   localStorage.removeItem("user_id");
+  router.push({ name: 'login' });
 };
 onMounted(() => {
   initFlowbite();
@@ -80,7 +99,7 @@ const emailUser = ref(localStorage.getItem("emailUser"));
                 </li>
                 <li>
                   <a href="#" class="block px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-700"
-                    role="menuitem" @click="LogOut">Cerrar Sesión</a>
+                    role="menuitem" @click="confirmarLogOut">Cerrar Sesión</a>
                 </li>
               </ul>
             </div>
@@ -90,40 +109,36 @@ const emailUser = ref(localStorage.getItem("emailUser"));
     </div>
   </nav>
 
-  <aside id="logo-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full border-r bg-gray-800 border-b border-gray-700 sm:translate-x-0"
-    aria-label="Sidebar">
+  <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 
+    h-screen pt-20 transition-transform -translate-x-full 
+    border-r sm:translate-x-0 bg-gray-800 border-gray-700" aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-800">
-      <ul class="space-y-2 font-medium text-white hover:text-gray-900">
+      <ul class="space-y-2 font-medium">
         <li class="hover:text-gray-900">
           <RouterLink :to="{ name: 'homilyAllAdm' }"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group hover:text-gray-900">
-            <i class="fas fa-bible text-gray-500"></i>
-            <span class="ml-3 text-white hover:text-gray-900">Homilías</span>
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+            <i class="fas fa-bible text-gray-500 group-hover:text-white"></i>
+            <span class="ml-3">Homilías</span>
           </RouterLink>
         </li>
         <li class="text-white hover:text-gray-900">
           <RouterLink :to="{ name: 'prayerView' }"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group hover:text-gray-900">
-            <i class="fas fa-praying-hands text-gray-500"></i>
-            <span class="flex-1 ml-3 whitespace-nowrap text-white hover:text-gray-900">Oración de la mañana</span>
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+            <i class="fas fa-praying-hands text-gray-500 group-hover:text-white"></i>
+            <span class="ml-3">Oración de la mañana</span>
           </RouterLink>
         </li>
         <li class="text-white hover:text-gray-900">
           <RouterLink :to="{ name: 'userView' }"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group hover:text-gray-900">
-            <i class="fas fa-user-friends text-gray-500"></i>
-            <span class="flex-1 ml-3 whitespace-nowrap text-white hover:text-gray-900">Usuarios</span>
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+            <i class="fas fa-user-friends text-gray-500 group-hover:text-white"></i>
+            <span class="ml-3">Usuarios</span>
           </RouterLink>
         </li>
-        <li @click="LogOut">
-          <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group hover:text-gray-900">
-            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
-              aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
-            </svg>
-            <span class="flex-1 ml-3 whitespace-nowrap text-white hover:text-gray-900">Cerrar Sesión</span>
+        <li @click="confirmarLogOut">
+          <a href="#" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+            <i class="fa-solid fa-arrow-right-from-bracket text-gray-500 group-hover:text-white"></i>
+            <span class="ml-3">Cerrar Sesión</span>
           </a>
         </li>
       </ul>

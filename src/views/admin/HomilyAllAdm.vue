@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive, markRaw } from "vue";
+import { onMounted, ref } from "vue";
 import Table from "../../components/Admin/Table.vue";
 import { initFlowbite } from "flowbite";
 import axios from "axios";

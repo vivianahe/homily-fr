@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" @input="mostrarContenidoEditor"></ckeditor>
+  <div id="app">
+    <ckeditor :editor="editor" v-model="editorData" @ready="onReady" @input="onChange" />
   </div>
 </template>
 
@@ -8,23 +8,27 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ref, onMounted } from 'vue';
 
-const props = defineProps({
-  dataUpdate: {
-    type: String
-  }
-})
+const editor = ClassicEditor;
 const editorData = ref('');
-onMounted(() => {
-  if (props.dataUpdate) {
-    editorData.value = props.dataUpdate;
-  }
+
+const emit = defineEmits(['editor-data', 'activeLoader']);
+const props = defineProps({
+  dataUpdate: {}
 })
 
-const editor = ClassicEditor;
-const editorConfig = {};
-const emit = defineEmits(['editor-data']);
-const mostrarContenidoEditor = () => {
+const onReady = () => {
+  editorData.value = props.dataUpdate;
+};
+onMounted(() => {
+  emit('activeLoader', true);
+  setTimeout(() => {
+    onReady();
+    emit('activeLoader', false);
+  }, 2000);
+})
+
+const onChange = () => {
   emit('editor-data', editorData.value);
-}
+};
 
 </script>

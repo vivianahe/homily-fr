@@ -210,7 +210,6 @@ const submit = () => {
             Authorization: `Bearer ${authToken}`,
         },
     };
-    console.log(formData)
     if (
         homilia.value.gospel !== "" &&
         homilia.value.img !== null &&

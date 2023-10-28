@@ -14,7 +14,7 @@
   </div>
 
   <Table :dataHomilies="dataUsers" @editar="editar" @datelle="datelle" @eliminar="eliminar" :columns="columnConfig"
-    :busqueda="true" />
+    :busqueda="false" />
   <ModalVue :dataForm="dataForm" @getData="getUsers" />
 </template>
 

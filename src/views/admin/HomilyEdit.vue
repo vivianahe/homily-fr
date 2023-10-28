@@ -1,4 +1,7 @@
 <template>
+    <div v-if="loading" class="fixed inset-0 flex justify-center items-center z-50">
+        <LoaderVue :isLoading="loading" class="mx-auto"></LoaderVue>
+    </div>
     <div class="p-6">
         <div class="flex justify-between">
             <div>
@@ -46,7 +49,7 @@
             </div>
             <div class="mb-6">
                 <label class="block mb-2 text-sm font-medium text-gray-900">Evangelio</label>
-                <Editor @editor-data="editorData" />
+                <Editor @editor-data="editorData" :dataUpdate="homilia.gospel" @activeLoader="activeLoader" />
             </div>
             <div class="mb-6">
                 <label class="block mb-2 text-sm font-medium text-gray-900">Imagen</label>
@@ -72,8 +75,7 @@
                 <label for="audio" class="block mb-2 text-sm font-medium text-gray-900">Audio</label>
                 <div v-if="shouldShowAudio" class="flex items-center">
                     <audio controls class="text-center">
-                        <source :src="'http://homily-ba.test/support/audioHomily/'+homilia.audio"
-                            type="audio/mp4" />
+                        <source :src="'http://homily-ba.test/support/audioHomily/' + homilia.audio" type="audio/mp4" />
                         Tu navegador no admite el elemento de audio.
                     </audio>
                     <button class="bg-red-500 text-white px-3 py-2 rounded-full ml-2" @click="closeAudio">
@@ -125,6 +127,7 @@
 
 <script setup>
 import Editor from "../../components/Admin/Editor.vue";
+import LoaderVue from '../../components/Admin/Loader.vue';
 import { ref, reactive, computed, onMounted } from "vue";
 import Alerta from "../../components/Admin/Alerta.vue";
 import axios from "axios";
@@ -137,6 +140,8 @@ const selectedImage = ref(null);
 const audioFile = ref(null);
 const audioPlayer = ref(null);
 const loader = ref(true);
+const loading = ref(false);
+
 
 const router = useRouter();
 const route = useRoute();
@@ -185,6 +190,10 @@ const editorData = (text = "") => {
     homilia.value.gospel = text;
 };
 
+const activeLoader = (active) => {
+    loading.value = active;
+}
+
 const submit = () => {
     // Crear un objeto FormData para manejar la solicitud
     const formData = new FormData();
@@ -213,7 +222,6 @@ const submit = () => {
             Authorization: `Bearer ${authToken}`,
         },
     };
-    console.log(formData)
     if (
         homilia.value.gospel !== "" &&
         homilia.value.img !== null &&
@@ -292,11 +300,12 @@ const getData = () => {
             homilia.value.reading = response.data.reading;
             homilia.value.gospel = response.data.gospel;
             homilia.value.img = response.data.img;
+            emit('editor-data', response.data.gospel);
             //selectedImage.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.img;
             selectedImage.value = "http://homily-ba.test/support/imgHomily/" + response.data.img;
             homilia.value.audio = response.data.audio;
             //audioFile.value = "http://127.0.0.1:8000/support/imgHomily/" + response.data.audio;
-            audioFile.value = "http://homily-ba.test0/support/imgHomily/" + response.data.audio;
+            audioFile.value = "http://homily-ba.test/support/audioHomily/" + response.data.audio;
         })
         .catch((error) => {
             console.error(error);
@@ -306,3 +315,27 @@ onMounted(() => {
     getData();
 })
 </script>
+
+<style scoped>
+.loader {
+    width: 50px;
+    padding: 8px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #25b09b;
+    --_m:
+        conic-gradient(#0000 10%, #000),
+        linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+    to {
+        transform: rotate(1turn)
+    }
+}
+</style>

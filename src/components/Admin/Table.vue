@@ -157,9 +157,6 @@ const performSearch = (includeDate) => {
         return false;
       }
     });
-  } else {
-    // Manejar casos en los que no hay datos
-    return [];
   }
 };
 

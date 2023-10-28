@@ -96,7 +96,6 @@ const login = async () => {
         // Redirigir al usuario al área de administración
         router.push({ name: 'homilyAllAdm' });
     } catch (e) {
-        console.log(e)
         error.value = "Credenciales incorrectas. Por favor, inténtalo nuevamente.";
     }
 };

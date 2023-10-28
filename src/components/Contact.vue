@@ -18,7 +18,8 @@
         </div>
 
         <div class="bg-custom-blue-li border-gray-200 rounded-lg p-8 md:p-12">
-          <h2 class="text-3xl font-bold mb-2 text-custom-text">Contáctanos</h2>
+          <h2 class="text-3xl font-bold mb-2 text-custom-text">Asesorías de familia</h2>
+          <h2 class="text-2xl font-semibold mb-2 text-custom-text">Contáctanos</h2>
 
           <form @submit.prevent="submitForm">
             <div class="mb-6">
